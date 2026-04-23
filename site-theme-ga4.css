@@ -1,0 +1,102 @@
+/* GA4 Packet Tracer — aspecto claro (variables + bloques) */
+html[data-theme="light"] {
+  --ink: #f0f4fa;
+  --text: #0f172a;
+  --muted: #64748b;
+  --edge: rgba(15, 23, 42, 0.1);
+  --accent: #7c3aed;
+  --accent2: #0284c7;
+}
+
+html[data-theme="light"] .bg {
+  background: radial-gradient(ellipse 100% 80% at 50% -15%, rgba(124, 58, 250, 0.1) 0%, transparent 50%),
+    var(--ink);
+}
+
+html[data-theme="light"] .kicker {
+  color: #0369a1;
+  border-color: rgba(14, 165, 233, 0.2);
+  background: rgba(14, 165, 233, 0.1);
+}
+
+html[data-theme="light"] .nav-inpage a {
+  color: #0284c7;
+}
+
+html[data-theme="light"] h1 {
+  background: linear-gradient(135deg, #0f172a 0%, #0ea5e9 50%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html[data-theme="light"] .code {
+  color: #475569;
+}
+
+html[data-theme="light"] h2 {
+  color: #0f172a;
+  border-bottom-color: var(--edge);
+}
+
+html[data-theme="light"] h3 {
+  color: #1e293b;
+}
+
+html[data-theme="light"] p,
+html[data-theme="light"] li {
+  color: #334155;
+}
+
+html[data-theme="light"] strong {
+  color: #0f172a;
+}
+
+html[data-theme="light"] th {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0f172a;
+}
+
+html[data-theme="light"] td {
+  color: #334155;
+}
+
+html[data-theme="light"] pre {
+  background: #0f172a;
+  color: #a5f3fc;
+  border-color: var(--edge);
+}
+
+html[data-theme="light"] .callout b {
+  color: #0f172a;
+}
+
+html[data-theme="light"] .callout--info {
+  color: #334155;
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.22);
+}
+html[data-theme="light"] .callout--warn {
+  color: #334155;
+  background: rgba(234, 179, 8, 0.08);
+  border-color: rgba(202, 138, 4, 0.25);
+}
+html[data-theme="light"] .callout--ok {
+  color: #334155;
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.2);
+}
+
+html[data-theme="light"] .file {
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .file p {
+  color: #64748b;
+}
+
+html[data-theme="light"] .note {
+  color: #64748b;
+  border-top-color: var(--edge);
+}

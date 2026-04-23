@@ -3,10 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("sena-site-theme") || localStorage.getItem("sena-index-theme"); } catch (e) {}
+  var d = document.documentElement.getAttribute("data-default-theme");
+  if (d !== "light" && d !== "dark") d = "dark";
+  document.documentElement.setAttribute("data-theme", t === "light" || t === "dark" ? t : d);
+})();
+</script>
 <title>Redes desde Cero — Empresa Enter Ltda.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lms-layout.css">
+<link rel="stylesheet" href="site-theme-button.css">
+<link rel="stylesheet" href="site-theme-revision.css">
 <style>
   :root {
     --bg: #0a0e14;
@@ -54,18 +66,13 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
     align-items: center;
-    gap: 10px 16px;
+    justify-content: space-between;
+    gap: 12px;
     height: 56px;
   }
-  .index-nav__link {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; white-space: nowrap;
-  }
-  .index-nav__link:hover { text-decoration: underline; color: #67e8f9; }
-  .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; justify-self: center; min-width: 0; }
+  .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; min-width: 0; }
   .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue-glow); }
   .header-badge { font-size: 11px; background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(34,211,238,0.28); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
 
@@ -416,8 +423,25 @@
 </head>
 <body>
 
+<div class="lms-app">
+<button type="button" class="lms-burger" aria-label="Menú de unidades" aria-controls="lms-sidebar" aria-expanded="false">☰</button>
+<div class="lms-scrim" aria-hidden="true"></div>
+<aside id="lms-sidebar" class="lms-sidebar" aria-label="Unidades del curso">
+  <div class="lms-sidebar__head">
+    <a href="index.html" class="lms-sidebar__brand">Material de estudio</a>
+    <span class="lms-sidebar__sub">Redes de datos · SENA</span>
+  </div>
+  <nav class="lms-sidebar__nav" aria-label="Módulos">
+    <a href="index.html" class="lms-sidebar__link">Inicio</a>
+    <a href="Revisi%C3%B3n%20Teoria%20B%C3%A1sica%20Direccionamiento%20IP.html" class="lms-sidebar__link lms-sidebar__link--active" aria-current="page">Revisión: teoría básica IP</a>
+    <a href="GA4-220501104-AA1-EV01_Packet_Tracer.html" class="lms-sidebar__link">GA4 · Packet Tracer</a>
+    <a href="Analizador-GRD-Redes-SENA.html" class="lms-sidebar__link">Analizador GRD (ambos temas)</a>
+  </nav>
+</aside>
+<div class="lms-main">
+<button type="button" class="site-theme-btn" id="site-theme-btn" aria-pressed="false" aria-label="Alternar entre tema claro y oscuro" title="Tema claro u oscuro"></button>
+
 <header class="site-header">
-  <a class="index-nav__link" href="index.html">← Volver al índice</a>
   <div class="logo">
     <div class="logo-dot"></div>
     Redes desde Cero — Enter Ltda.
@@ -873,6 +897,10 @@
   </div>
 </div><!-- /main -->
 
+</div><!-- lms-main -->
+</div><!-- lms-app -->
+<script src="lms.js" defer></script>
+<script src="site-theme.js" defer></script>
 <script>
 const SLIDES = [
   '¿Qué es una red?',

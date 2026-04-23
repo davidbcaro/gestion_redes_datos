@@ -1,0 +1,226 @@
+/* Shell tipo LMS / Canvas — barra lateral + área principal */
+
+.lms-app {
+  display: grid;
+  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.lms-sidebar {
+  background: linear-gradient(180deg, #111820 0%, #0a0e14 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.lms-sidebar__head {
+  padding: 1.2rem 1rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.lms-sidebar__brand {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  display: block;
+}
+.lms-sidebar__brand:hover {
+  color: #22d3ee;
+}
+
+.lms-sidebar__sub {
+  font-size: 0.68rem;
+  color: #8b95a8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.4rem;
+  display: block;
+}
+
+.lms-sidebar__nav {
+  padding: 0.8rem 0.45rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.lms-sidebar__link {
+  display: block;
+  padding: 0.6rem 0.8rem;
+  border-radius: 9px;
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  line-height: 1.35;
+}
+.lms-sidebar__link:hover {
+  background: rgba(34, 211, 238, 0.08);
+  color: #fff;
+}
+.lms-sidebar__link--active {
+  background: rgba(34, 211, 238, 0.12);
+  color: #22d3ee;
+  font-weight: 600;
+  border-color: rgba(34, 211, 238, 0.22);
+}
+
+.lms-sidebar__section {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #64748b;
+  padding: 1rem 0.8rem 0.35rem;
+}
+
+.lms-main {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botón menú (móvil / tablet) */
+.lms-burger {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 400;
+  width: 46px;
+  height: 46px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0f1419;
+  color: #e8ecf4;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+.lms-burger:hover {
+  background: #1a2430;
+}
+
+.lms-scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+@media (max-width: 1024px) {
+  .lms-app {
+    grid-template-columns: 1fr;
+  }
+
+  .lms-burger {
+    display: flex;
+  }
+
+  .lms-main {
+    padding-top: 64px;
+  }
+
+  .lms-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 380;
+    width: min(300px, 90vw);
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.26s ease;
+    box-shadow: 12px 0 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .lms-app.lms--nav-open .lms-sidebar {
+    transform: translateX(0);
+  }
+
+  .lms-scrim {
+    display: block;
+  }
+
+  .lms-app.lms--nav-open .lms-scrim {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Barra de progreso fija (p. ej. Revisión) alineada al área principal, no al sidebar */
+@media (min-width: 1025px) {
+  .lms-app .progress-bar {
+    left: 260px !important;
+    width: calc(100% - 260px) !important;
+  }
+}
+
+/* Tema claro (p. ej. index con data-theme) — barra lateral y menú móvil */
+html[data-theme="light"] .lms-sidebar {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border-right-color: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .lms-sidebar__head {
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .lms-sidebar__brand {
+  color: #0f172a;
+}
+html[data-theme="light"] .lms-sidebar__brand:hover {
+  color: #0284c7;
+}
+html[data-theme="light"] .lms-sidebar__sub {
+  color: #64748b;
+}
+html[data-theme="light"] .lms-sidebar__link {
+  color: #475569;
+}
+html[data-theme="light"] .lms-sidebar__link:hover {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0f172a;
+}
+html[data-theme="light"] .lms-sidebar__link--active {
+  background: rgba(14, 165, 233, 0.15);
+  color: #0284c7;
+  border-color: rgba(14, 165, 233, 0.2);
+}
+html[data-theme="light"] .lms-sidebar__section {
+  color: #94a3b8;
+}
+
+html[data-theme="light"] .lms-burger {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.12);
+}
+html[data-theme="light"] .lms-burger:hover {
+  background: #f1f5f9;
+}

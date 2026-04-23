@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-default-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("sena-site-theme") || localStorage.getItem("sena-index-theme"); } catch (e) {}
+  var d = document.documentElement.getAttribute("data-default-theme");
+  if (d !== "light" && d !== "dark") d = "dark";
+  document.documentElement.setAttribute("data-theme", t === "light" || t === "dark" ? t : d);
+})();
+</script>
 <title>RedesAprende — Aprende Redes desde Cero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lms-layout.css">
+<link rel="stylesheet" href="analizador-theme-swap.css">
+<link rel="stylesheet" href="site-theme-button.css">
 <style>
 :root{
   --bg:#f0f4fa;--white:#ffffff;
@@ -23,10 +35,6 @@
   --font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-/* Navegación — índice (estándar) */
-.index-nav{max-width:1100px;margin:0 auto;padding:12px 18px 0;text-align:left}
-.index-nav__link{display:inline-flex;align-items:center;gap:0.35rem;color:var(--blue);font-size:0.82rem;font-weight:600;text-decoration:none;font-family:var(--font);letter-spacing:0.01em}
-.index-nav__link:hover{text-decoration:underline;color:#0284c7}
 body{background:var(--bg);color:var(--g900);font-family:var(--font);min-height:100vh;font-size:15px;line-height:1.6}
 a{color:var(--blue)}
 /* HEADER */
@@ -327,9 +335,23 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;hei
 </head>
 <body>
 
-<nav class="index-nav" aria-label="Navegación a la portada">
-  <a class="index-nav__link" href="index.html">← Volver al índice</a>
-</nav>
+<div class="lms-app">
+<button type="button" class="lms-burger" aria-label="Menú de unidades" aria-controls="lms-sidebar" aria-expanded="false">☰</button>
+<div class="lms-scrim" aria-hidden="true"></div>
+<aside id="lms-sidebar" class="lms-sidebar" aria-label="Unidades del curso">
+  <div class="lms-sidebar__head">
+    <a href="index.html" class="lms-sidebar__brand">Material de estudio</a>
+    <span class="lms-sidebar__sub">Redes de datos · SENA</span>
+  </div>
+  <nav class="lms-sidebar__nav" aria-label="Módulos">
+    <a href="index.html" class="lms-sidebar__link">Inicio</a>
+    <a href="Revisi%C3%B3n%20Teoria%20B%C3%A1sica%20Direccionamiento%20IP.html" class="lms-sidebar__link">Revisión: teoría básica IP</a>
+    <a href="GA4-220501104-AA1-EV01_Packet_Tracer.html" class="lms-sidebar__link">GA4 · Packet Tracer</a>
+    <a href="Analizador-GRD-Redes-SENA.html" class="lms-sidebar__link">Analizador GRD (ambos temas)</a>
+  </nav>
+</aside>
+<div class="lms-main">
+<button type="button" class="site-theme-btn" id="site-theme-btn" aria-pressed="false" aria-label="Alternar entre tema claro y oscuro" title="Tema claro u oscuro"></button>
 <div class="hdr">
   <div class="hdr-logo">Analizador <span>GRD Sena</span></div>
 </div>
@@ -856,6 +878,10 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;hei
 
 </div><!-- /wrap -->
 
+</div><!-- lms-main -->
+</div><!-- lms-app -->
+<script src="lms.js" defer></script>
+<script src="site-theme.js" defer></script>
 <script>
 // ─── UTILS ─────────────────────────────────────────────────────
 const ip2i=ip=>ip.split('.').reduce((a,b)=>((a<<8)|+b)>>>0,0);

@@ -3,10 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("sena-site-theme") || localStorage.getItem("sena-index-theme"); } catch (e) {}
+      var d = document.documentElement.getAttribute("data-default-theme");
+      if (d !== "light" && d !== "dark") d = "dark";
+      document.documentElement.setAttribute("data-theme", t === "light" || t === "dark" ? t : d);
+    })();
+  </script>
   <title>GA4-220501104-AA1-EV01 — Simulación en Packet Tracer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lms-layout.css">
+  <link rel="stylesheet" href="site-theme-button.css">
+  <link rel="stylesheet" href="site-theme-ga4.css">
   <style>
     :root {
       --ink: #0a0e14;
@@ -34,13 +46,6 @@
       margin: 0 auto;
       padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 5vw, 3rem) 3rem;
     }
-    /* Navegación — índice (estándar) */
-    .index-nav { margin: 0 0 0.5rem; text-align: left; }
-    .index-nav__link {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      color: #22d3ee; font-size: 0.82rem; font-weight: 600; text-decoration: none; letter-spacing: 0.01em;
-    }
-    .index-nav__link:hover { text-decoration: underline; color: #67e8f9; }
     .kicker {
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2);
       border: 1px solid var(--edge); background: rgba(34, 211, 238, 0.08);
@@ -115,10 +120,24 @@
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
+  <div class="lms-app">
+    <button type="button" class="lms-burger" aria-label="Menú de unidades" aria-controls="lms-sidebar" aria-expanded="false">☰</button>
+    <div class="lms-scrim" aria-hidden="true"></div>
+    <aside id="lms-sidebar" class="lms-sidebar" aria-label="Unidades del curso">
+      <div class="lms-sidebar__head">
+        <a href="index.html" class="lms-sidebar__brand">Material de estudio</a>
+        <span class="lms-sidebar__sub">Redes de datos · SENA</span>
+      </div>
+      <nav class="lms-sidebar__nav" aria-label="Módulos">
+        <a href="index.html" class="lms-sidebar__link">Inicio</a>
+        <a href="Revisi%C3%B3n%20Teoria%20B%C3%A1sica%20Direccionamiento%20IP.html" class="lms-sidebar__link">Revisión: teoría básica IP</a>
+        <a href="GA4-220501104-AA1-EV01_Packet_Tracer.html" class="lms-sidebar__link lms-sidebar__link--active" aria-current="page">GA4 · Packet Tracer</a>
+        <a href="Analizador-GRD-Redes-SENA.html" class="lms-sidebar__link">Analizador GRD (ambos temas)</a>
+      </nav>
+    </aside>
+    <div class="lms-main">
+  <button type="button" class="site-theme-btn" id="site-theme-btn" aria-pressed="false" aria-label="Alternar entre tema claro y oscuro" title="Tema claro u oscuro"></button>
   <div class="wrap prose">
-    <nav class="index-nav" aria-label="Navegación a la portada">
-      <a class="index-nav__link" href="index.html">← Volver al índice</a>
-    </nav>
     <p class="kicker">Unidad temática · SENA</p>
     <h1>Simulación en Cisco Packet Tracer</h1>
     <p class="code">GA4-220501104-AA1-EV01 · 220501104</p>
@@ -416,5 +435,9 @@ tracert 192.168.1.10</pre>
     </ul>
     <p class="note">En un sitio estático publicado, estos enlaces suelen forzar la descarga; en local, el sistema puede abrirlos con la aplicación predeterminada.</p>
   </div>
+  </div><!-- lms-main -->
+  </div><!-- lms-app -->
+  <script src="lms.js" defer></script>
+  <script src="site-theme.js" defer></script>
 </body>
 </html>
