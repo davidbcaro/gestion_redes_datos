@@ -50,16 +50,22 @@
   .site-header {
     background: var(--bg2);
     border-bottom: 1px solid var(--border);
-    padding: 0 24px;
+    padding: 0 20px;
     position: sticky;
     top: 0;
     z-index: 100;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px 16px;
     height: 56px;
   }
-  .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  .index-nav__link {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; white-space: nowrap;
+  }
+  .index-nav__link:hover { text-decoration: underline; color: #67e8f9; }
+  .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; justify-self: center; min-width: 0; }
   .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue-glow); }
   .header-badge { font-size: 11px; background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(34,211,238,0.28); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
 
@@ -411,6 +417,7 @@
 <body>
 
 <header class="site-header">
+  <a class="index-nav__link" href="index.html">← Volver al índice</a>
   <div class="logo">
     <div class="logo-dot"></div>
     Redes desde Cero — Enter Ltda.

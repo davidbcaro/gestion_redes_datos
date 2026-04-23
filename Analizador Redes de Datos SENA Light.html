@@ -23,6 +23,10 @@
   --font:'Outfit',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+/* Navegación — índice (estándar) */
+.index-nav{max-width:1100px;margin:0 auto;padding:12px 18px 0;text-align:left}
+.index-nav__link{display:inline-flex;align-items:center;gap:0.35rem;color:var(--blue);font-size:0.82rem;font-weight:600;text-decoration:none;font-family:var(--font);letter-spacing:0.01em}
+.index-nav__link:hover{text-decoration:underline;color:#0284c7}
 body{background:var(--bg);color:var(--g900);font-family:var(--font);min-height:100vh;font-size:15px;line-height:1.6}
 a{color:var(--blue)}
 /* HEADER */
@@ -323,6 +327,9 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;hei
 </head>
 <body>
 
+<nav class="index-nav" aria-label="Navegación a la portada">
+  <a class="index-nav__link" href="index.html">← Volver al índice</a>
+</nav>
 <div class="hdr">
   <div class="hdr-logo">Analizador <span>GRD Sena</span></div>
 </div>

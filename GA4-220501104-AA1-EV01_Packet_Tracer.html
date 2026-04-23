@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GA4-220501104-AA1-EV01 — Simulación en Packet Tracer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0e14;
+      --text: #e8ecf4;
+      --muted: #8b95a8;
+      --edge: rgba(255, 255, 255, 0.08);
+      --accent: #a78bfa;
+      --accent2: #22d3ee;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Outfit", system-ui, sans-serif;
+      background: var(--ink);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 100% 80% at 50% -15%, rgba(167, 139, 250, 0.14) 0%, transparent 50%), var(--ink);
+    }
+    .wrap {
+      position: relative; z-index: 1; width: 100%;
+      max-width: min(100%, 88rem);
+      margin: 0 auto;
+      padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 5vw, 3rem) 3rem;
+    }
+    /* Navegación — índice (estándar) */
+    .index-nav { margin: 0 0 0.5rem; text-align: left; }
+    .index-nav__link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      color: #22d3ee; font-size: 0.82rem; font-weight: 600; text-decoration: none; letter-spacing: 0.01em;
+    }
+    .index-nav__link:hover { text-decoration: underline; color: #67e8f9; }
+    .kicker {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2);
+      border: 1px solid var(--edge); background: rgba(34, 211, 238, 0.08);
+      padding: 0.35rem 0.75rem; border-radius: 100px; display: inline-block; margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: clamp(1.35rem, 4vw, 1.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .code { font-family: "DM Mono", ui-monospace, monospace; font-size: 0.82rem; color: #94a3b8; margin-bottom: 0.5rem; }
+    .intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .nav-inpage {
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+      padding: 0.85rem 0; margin-bottom: 2rem;
+      border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge);
+      font-size: 0.88rem;
+    }
+    .nav-inpage a { color: var(--accent2); text-decoration: none; }
+    .nav-inpage a:hover { text-decoration: underline; }
+    h2 {
+      font-size: 1.1rem; font-weight: 800; color: #fff; margin: 2.25rem 0 1rem; padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--edge);
+    }
+    h2:first-of-type { margin-top: 0; }
+    h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 1.5rem 0 0.65rem; }
+    p, li { font-size: 0.92rem; color: #cbd5e1; }
+    p { margin-bottom: 0.75rem; }
+    ul, ol { margin: 0.5rem 0 0.9rem 1.25rem; }
+    li { margin-bottom: 0.4rem; }
+    strong { color: var(--text); font-weight: 600; }
+    .prose a { color: var(--accent2); }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 0.75rem 0 1.25rem;
+    }
+    th, td { border: 1px solid var(--edge); padding: 0.5rem 0.6rem; text-align: left; }
+    th { background: rgba(34, 211, 238, 0.08); color: #e2e8f0; font-weight: 700; }
+    td { color: #cbd5e1; }
+    .overflow { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    pre {
+      font-family: "DM Mono", ui-monospace, monospace; font-size: 0.72rem; line-height: 1.5;
+      background: #101820; border: 1px solid var(--edge); border-radius: 10px; padding: 1rem 1.1rem;
+      overflow-x: auto; margin: 0.65rem 0 1.1rem; color: #a5f3fc; white-space: pre-wrap; word-break: break-word;
+    }
+    .callout {
+      font-size: 0.86rem; padding: 0.85rem 1rem; border-radius: 10px; margin: 1rem 0; border: 1px solid var(--edge);
+    }
+    .callout--info { background: rgba(34, 211, 238, 0.06); border-color: rgba(34, 211, 238, 0.2); color: #cbd5e1; }
+    .callout--warn { background: rgba(251, 191, 36, 0.06); border-color: rgba(251, 191, 36, 0.2); color: #cbd5e1; }
+    .callout--ok { background: rgba(52, 211, 153, 0.06); border-color: rgba(52, 211, 153, 0.2); color: #cbd5e1; }
+    .callout b { color: #fff; }
+    h2#archivos { margin-top: 2.5rem; }
+    .file {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.9rem 1rem; margin-bottom: 0.5rem;
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(20, 26, 36, 0.9) 0%, rgba(10, 14, 20, 0.85) 100%);
+    }
+    .file-ico { font-size: 1.35rem; line-height: 1; }
+    .file a { color: var(--accent2); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
+    .file a:hover { text-decoration: underline; }
+    .file p { color: var(--muted); font-size: 0.8rem; margin: 0.2rem 0 0; }
+    .note { font-size: 0.82rem; color: var(--muted); margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--edge); }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="wrap prose">
+    <nav class="index-nav" aria-label="Navegación a la portada">
+      <a class="index-nav__link" href="index.html">← Volver al índice</a>
+    </nav>
+    <p class="kicker">Unidad temática · SENA</p>
+    <h1>Simulación en Cisco Packet Tracer</h1>
+    <p class="code">GA4-220501104-AA1-EV01 · 220501104</p>
+    <p class="intro">Implementación de un esquema de subredes y direccionamiento <strong>IPv4</strong> e <strong>IPv6</strong> con <strong>Packet Tracer 9.0</strong>. Caso <strong>Enter Ltda.</strong>, cuatro VLAN, router <em>on a stick</em> y cálculo <strong>VLSM</strong> a partir de <code class="code" style="font-size:0.85em">192.168.1.0/24</code> y prefijo IPv6 <code class="code" style="font-size:0.85em">2001:DB8:ACAD::/48</code>. A continuación encontrará el marco <strong>teórico</strong> y la guía <strong>práctica</strong>; al final, los archivos originales (Word, PowerPoint y Excel) de la carpeta.</p>
+
+    <nav class="nav-inpage" aria-label="Secciones">
+      <a href="#teoria">1. Teoría</a>
+      <a href="#practica">2. Práctica</a>
+      <a href="#glosario">3. Glosario</a>
+      <a href="#archivos">4. Archivos de apoyo</a>
+    </nav>
+
+    <h2 id="teoria">Marco teórico</h2>
+
+    <h3>Objetivo y entregables</h3>
+    <p>Debe construir en Packet Tracer la red de la empresa a partir del espacio <strong>192.168.1.0/24</strong>, con <strong>subnetting VLSM</strong> y direcciones <strong>IPv6</strong> a partir de <strong>2001:DB8:ACAD::/48</strong> (un <code class="code" style="font-size:0.85em">/64</code> por VLAN). Los entregables habituales son:</p>
+    <ul>
+      <li>Archivo de simulación <strong>.pkt</strong> con topología probada (por ejemplo <code>Enter_Ltda.pkt</code>).</li>
+      <li><strong>Hoja de cálculo</strong> con VLSM y tablas de direccionamiento IPv4 e IPv6.</li>
+      <li><strong>Evidencias de conectividad</strong>: capturas de ping entre VLAN y salida de <code>show ip interface brief</code> (y equivalentes IPv6).</li>
+    </ul>
+    <p class="callout callout--info"><b>Plataforma.</b> La entrega se realiza en <strong>Zajuna</strong> según el enlace y la fecha que indique su instructor. Verifique nombres y formatos requeridos.</p>
+
+    <h3>Escenario: Enter Ltda.</h3>
+    <p>Se segmenta la LAN en <strong>cuatro áreas</strong> (cada una con su VLAN y subred). Un único <strong>Cisco 2901</strong> enruta entre VLAN mediante <strong>router on a stick</strong>: subinterfaces <strong>802.1Q</strong> sobre <strong>GigabitEthernet0/0</strong> hacia un <strong>switch 2960</strong>.</p>
+    <div class="overflow">
+      <table>
+        <caption style="caption-side:bottom;font-size:0.75rem;color:var(--muted);padding:0.5rem 0 0">Requisitos de host (con crecimiento +2) y máscara resultante</caption>
+        <thead>
+          <tr>
+            <th>Área / VLAN</th>
+            <th>ID VLAN</th>
+            <th>Hosts req.</th>
+            <th>Con crecimiento</th>
+            <th>Bits de host</th>
+            <th>Prefijo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Administrativa</td><td>10</td><td>20</td><td>22</td><td>5</td><td>/27</td></tr>
+          <tr><td>Financiera</td><td>20</td><td>50</td><td>52</td><td>6</td><td>/26</td></tr>
+          <tr><td>Técnicos</td><td>30</td><td>20</td><td>22</td><td>5</td><td>/27</td></tr>
+          <tr><td>Visitantes</td><td>40</td><td>100</td><td>102</td><td>7</td><td>/25</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IPv4: VLSM</h3>
+    <p><strong>VLSM</strong> (máscaras de subred de longitud variable) asigna un prefijo distinto a cada subred según el número real de hosts. Se parte de <strong>192.168.1.0/24</strong> y se asignan las subredes de <strong>mayor a menor</strong> tamaño.</p>
+    <div class="callout callout--warn"><b>Regla de oro VLSM:</b> asigne siempre primero la subred <strong>más grande</strong>. Si empieza por la más pequeña, el siguiente bloque puede no alinearse y el diseño deja de ser válido.</div>
+    <div class="overflow">
+      <table>
+        <caption style="caption-side:bottom;font-size:0.75rem;color:var(--muted);padding:0.5rem 0 0">Subredes IPv4 (orden de asignación por tamaño)</caption>
+        <thead>
+          <tr>
+            <th>VLAN</th>
+            <th>Red</th>
+            <th>Máscara</th>
+            <th>Gateway</th>
+            <th>Rango utilizable</th>
+            <th>Broadcast</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>40 Visitantes</td><td>192.168.1.0/25</td><td>255.255.255.128</td><td>192.168.1.1</td><td>.1 – .126</td><td>192.168.1.127</td></tr>
+          <tr><td>20 Financiera</td><td>192.168.1.128/26</td><td>255.255.255.192</td><td>192.168.1.129</td><td>.129 – .190</td><td>192.168.1.191</td></tr>
+          <tr><td>10 Administrativa</td><td>192.168.1.192/27</td><td>255.255.255.224</td><td>192.168.1.193</td><td>.193 – .222</td><td>192.168.1.223</td></tr>
+          <tr><td>30 Técnicos</td><td>192.168.1.224/27</td><td>255.255.255.224</td><td>192.168.1.225</td><td>.225 – .254</td><td>192.168.1.255</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IPv6: prefijos por VLAN</h3>
+    <p>Se utiliza el prefijo global <strong>2001:DB8:ACAD::/48</strong> y se reserva un <strong>/64</strong> por VLAN. Cada VLAN se refleja en el <strong>cuarto hexteto</strong> (<code>:10</code>, <code>:20</code>, <code>:30</code>, <code>:40</code>) para facilitar la lectura en laboratorio y cursos CCNA.</p>
+    <div class="overflow">
+      <table>
+        <thead>
+          <tr>
+            <th>VLAN</th>
+            <th>Prefijo /64</th>
+            <th>Gateway (global)</th>
+            <th>Link-local en R1</th>
+            <th>Ejemplo de host</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>2001:DB8:ACAD:10::/64</td><td>2001:DB8:ACAD:10::1</td><td>FE80::1</td><td>2001:DB8:ACAD:10::2</td></tr>
+          <tr><td>20</td><td>2001:DB8:ACAD:20::/64</td><td>2001:DB8:ACAD:20::1</td><td>FE80::1</td><td>2001:DB8:ACAD:20::10</td></tr>
+          <tr><td>30</td><td>2001:DB8:ACAD:30::/64</td><td>2001:DB8:ACAD:30::1</td><td>FE80::1</td><td>2001:DB8:ACAD:30::5</td></tr>
+          <tr><td>40</td><td>2001:DB8:ACAD:40::/64</td><td>2001:DB8:ACAD:40::1</td><td>FE80::1</td><td>2001:DB8:ACAD:40::a</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Reglas de notación IPv6:</strong> elimine ceros a la izquierda en cada hexteto; use <strong>una sola vez</strong> <code>::</code> para el bloque más largo de grupos a cero; toda interfaz activa requiere dirección <strong>link-local</strong> (FE80::/10). Usar <strong>FE80::1</strong> en todas las subinterfaces del router es una convención didáctica: el host siempre alcanza el mismo “gateway” link-local en el enlace local.</p>
+
+    <h3>Packet Tracer (contexto)</h3>
+    <p><strong>Packet Tracer</strong> es el simulador de Cisco Networking Academy. La <strong>versión 9.0</strong> mejora IoT, IPv6 y otras funciones. Se descarga desde <strong>netacad.com</strong> (recursos de la cuenta; curso <em>Introduction to Packet Tracer</em> si no tiene otra ficha). En el primer arranque inicie sesión: sin cuenta, el programa deja de funcionar a los 15 minutos. Los <strong>.pkt</strong> creados en 9.x no se abren en <strong>7.x</strong>; si su aula pide otra versión, use <em>File → Save As</em> a un formato compatible (p. ej. 8.2) si aplica.</p>
+
+    <h2 id="practica">Parte práctica</h2>
+
+    <h3>1. Topología básica</h3>
+    <ol>
+      <li>Coloque un <strong>Cisco 2901</strong> (nombre <strong>R1</strong>) y un <strong>2960</strong> (nombre <strong>SW1</strong>).</li>
+      <li>Al menos <strong>un PC por VLAN</strong>: p. ej. PC-ADM1, PC-FIN1, PC-TEC1, PC-VIS1.</li>
+      <li>Cablee con <strong>cobre recto</strong>: R1 <strong>G0/0</strong> ↔ SW1 <strong>Fa0/1</strong> (troncal); asigne puertos de acceso según su diseño (p. ej. Fa0/2 a VLAN 10, etc.).</li>
+    </ol>
+    <p class="callout callout--ok"><b>Consejo:</b> use nombres descriptivos, active <em>View → Port Labels</em> si le ayuda a documentar, y guarde a menudo (<kbd>Ctrl+S</kbd>).</p>
+
+    <h3>2. Switch SW1: VLAN, trunk y acceso</h3>
+    <p>Cree las cuatro VLAN con nombre, más una <strong>VLAN 99</strong> nativa (práctica habitual frente a riesgos de <em>VLAN hopping</em> en tráfico con etiquetado inadecuado). Trunk hacia R1 y puertos de acceso por puerto.</p>
+<pre>SW1> enable
+SW1# configure terminal
+SW1(config)# hostname SW1
+SW1(config)# vlan 10
+SW1(config-vlan)# name ADMINISTRATIVA
+SW1(config-vlan)# vlan 20
+SW1(config-vlan)# name FINANCIERA
+SW1(config-vlan)# vlan 30
+SW1(config-vlan)# name TECNICOS
+SW1(config-vlan)# vlan 40
+SW1(config-vlan)# name VISITANTES
+SW1(config-vlan)# vlan 99
+SW1(config-vlan)# name NATIVA
+SW1(config)# interface FastEthernet0/1
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk allowed vlan 10,20,30,40,99
+SW1(config-if)# switchport trunk native vlan 99
+SW1(config-if)# description Trunk hacia R1 G0/0
+SW1(config-if)# interface range FastEthernet0/2 - 24
+SW1(config-if-range)# switchport mode access
+SW1(config-if-range)# interface FastEthernet0/2
+SW1(config-if)# switchport access vlan 10
+SW1(config-if)# interface FastEthernet0/3
+SW1(config-if)# switchport access vlan 20
+SW1(config-if)# interface FastEthernet0/4
+SW1(config-if)# switchport access vlan 30
+SW1(config-if)# interface FastEthernet0/5
+SW1(config-if)# switchport access vlan 40
+SW1(config-if)# end
+SW1# copy running-config startup-config</pre>
+
+    <h3>3. Router R1: IPv4 (router on a stick)</h3>
+    <p>Active la interfaz física, luego una <strong>subinterfaz por VLAN</strong> con <code>encapsulation dot1Q &lt;id&gt;</code> (antes de la <code>ip address</code>). Puede añadir <code>G0/0.99</code> con <code>encapsulation dot1Q 99 native</code> para alinear la VLAN nativa del trunk.</p>
+<pre>Router> enable
+Router# configure terminal
+Router(config)# hostname R1
+R1(config)# ipv6 unicast-routing
+R1(config)# interface GigabitEthernet0/0
+R1(config-if)# description Trunk hacia SW1
+R1(config-if)# no shutdown
+R1(config-if)# interface GigabitEthernet0/0.10
+R1(config-subif)# description ADMINISTRATIVA
+R1(config-subif)# encapsulation dot1Q 10
+R1(config-subif)# ip address 192.168.1.193 255.255.255.224
+R1(config-subif)# interface GigabitEthernet0/0.20
+R1(config-subif)# description FINANCIERA
+R1(config-subif)# encapsulation dot1Q 20
+R1(config-subif)# ip address 192.168.1.129 255.255.255.192
+R1(config-subif)# interface GigabitEthernet0/0.30
+R1(config-subif)# description TECNICOS
+R1(config-subif)# encapsulation dot1Q 30
+R1(config-subif)# ip address 192.168.1.225 255.255.255.224
+R1(config-subif)# interface GigabitEthernet0/0.40
+R1(config-subif)# description VISITANTES
+R1(config-subif)# encapsulation dot1Q 40
+R1(config-subif)# ip address 192.168.1.1 255.255.255.128
+R1(config-subif)# interface GigabitEthernet0/0.99
+R1(config-subif)# description NATIVA
+R1(config-subif)# encapsulation dot1Q 99 native
+R1(config-subif)# end</pre>
+    <p class="callout callout--warn"><b>Orden en IOS:</b> <code>encapsulation dot1Q</code> antes de <code>ip address</code>. De lo contrario, corregir la VLAN en una subinterfaz ya creada puede obligar a borrarla y volver a crearla.</p>
+
+    <h3>4. Router R1: IPv6</h3>
+    <p>En cada subinterfaz añada la dirección global <code>ipv6 address …/64</code> y, si aplica, <code>ipv6 address FE80::1 link-local</code> (ya habilitó <code>ipv6 unicast-routing</code> a nivel global).</p>
+<pre>R1(config)# interface GigabitEthernet0/0.10
+R1(config-subif)# ipv6 address 2001:DB8:ACAD:10::1/64
+R1(config-subif)# ipv6 address FE80::1 link-local
+R1(config-subif)# interface GigabitEthernet0/0.20
+R1(config-subif)# ipv6 address 2001:DB8:ACAD:20::1/64
+R1(config-subif)# ipv6 address FE80::1 link-local
+R1(config-subif)# interface GigabitEthernet0/0.30
+R1(config-subif)# ipv6 address 2001:DB8:ACAD:30::1/64
+R1(config-subif)# ipv6 address FE80::1 link-local
+R1(config-subif)# interface GigabitEthernet0/0.40
+R1(config-subif)# ipv6 address 2001:DB8:ACAD:40::1/64
+R1(config-subif)# ipv6 address FE80::1 link-local
+R1(config-subif)# end
+R1# copy running-config startup-config</pre>
+
+    <h3>5. PCs: direcciones de ejemplo</h3>
+    <p>En cada PC: <em>Desktop → IP Configuration</em> (o pestaña <em>Config</em>): IPv4/IPv6 estáticos según su VLAN, gateway IPv4 = IP del router en esa VLAN; gateway IPv6 = <strong>FE80::1</strong> (o la global del router, según lo que pida su guía).</p>
+    <div class="overflow">
+      <table>
+        <thead>
+          <tr><th>Equipo (ejemplo)</th><th>IPv4 / máscara</th><th>Gateway IPv4</th><th>IPv6 / prefijo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PC-ADM1 (VLAN 10)</td><td>192.168.1.194 — 255.255.255.224</td><td>192.168.1.193</td><td>2001:DB8:ACAD:10::2/64</td></tr>
+          <tr><td>PC-FIN1 (VLAN 20)</td><td>192.168.1.130 — 255.255.255.192</td><td>192.168.1.129</td><td>2001:DB8:ACAD:20::10/64</td></tr>
+          <tr><td>PC-TEC1 (VLAN 30)</td><td>192.168.1.226 — 255.255.255.224</td><td>192.168.1.225</td><td>2001:DB8:ACAD:30::5/64</td></tr>
+          <tr><td>PC-VIS1 (VLAN 40)</td><td>192.168.1.10 — 255.255.255.128</td><td>192.168.1.1</td><td>2001:DB8:ACAD:40::a/64</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>6. Interfaces pasivas (OSPF o EIGRP, si aplica en su evidencia)</h3>
+    <p>Evite enviar <em>hellos</em> de enrutamiento hacia las LAN de usuarios donde no hay vecinos. Con <strong>OSPF</strong> (proceso 1 de ejemplo):</p>
+<pre>R1(config)# router ospf 1
+R1(config-router)# passive-interface GigabitEthernet0/0.10
+R1(config-router)# passive-interface GigabitEthernet0/0.20
+R1(config-router)# passive-interface GigabitEthernet0/0.30
+R1(config-router)# passive-interface GigabitEthernet0/0.40
+R1(config-router)# end</pre>
+    <p>Alternativa con <strong>EIGRP</strong> AS 100: <code>passive-interface default</code> y luego deje activas solo las interfaces hacia vecinos reales, si su diseño lo incluye.</p>
+
+    <h3>7. Comprobación</h3>
+    <p>En R1: <code>show ip interface brief</code>, <code>show ipv6 interface brief</code>, <code>show ipv6 route</code> (o las variantes de su guía). Desde un PC, <em>Command Prompt</em>: pruebe ping IPv4 a su gateway, a otro host en otra VLAN y <code>ping 2001:DB8:ACAD:20::10</code> (IPv6 inter-VLAN). <code>tracert</code> a otra subred confirma el salto por el router. <strong>Éxito:</strong> ping sin pérdida y ruta con el gateway esperado.</p>
+<pre># Desde el PC: Command Prompt
+ping 192.168.1.193
+ping 192.168.1.130
+ping 192.168.1.226
+ping 192.168.1.10
+ping 2001:DB8:ACAD:20::10
+tracert 192.168.1.10</pre>
+
+    <h3>8. Incidencias frecuentes</h3>
+    <div class="overflow">
+      <table>
+        <thead>
+          <tr><th>Síntoma</th><th>Causa probable</th><th>Qué revisar</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>El PC no hace ping al gateway</td><td>IP o máscara incorrectas</td><td>Rango utilizable y máscara /25, /26 o /27</td></tr>
+          <tr><td>Al gateway OK, otra VLAN no</td><td>Falta subinterfaz o IP en R1</td><td><code>show ip interface brief</code></td></tr>
+          <tr><td>Subinterfaz up/down</td><td>dot1Q o trunk no permiten la VLAN</td><td>Revisar R1 y <code>switchport trunk allowed vlan</code> en SW1</td></tr>
+          <tr><td>IPv6 no responde</td><td>Sin enrutamiento IPv6</td><td><code>ipv6 unicast-routing</code> en R1</td></tr>
+          <tr><td>Puerto en VLAN 1</td><td>Acceso no aplicado</td><td><code>switchport access vlan &lt;id&gt;</code></td></tr>
+          <tr><td>Enlace en rojo</td><td>Cable incorrecto</td><td>Recto R1–SW1 y SW1–PC</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="callout callout--info"><b>Orden de diagnóstico:</b> 1) <code>show vlan brief</code> en SW1, 2) <code>show interfaces trunk</code>, 3) <code>show ip interface brief</code> en R1, 4) <code>ipconfig</code> en el PC. Si el simulador queda en estado raro, a veces conviene rehacer R1 y SW1 desde cero.</p>
+
+    <h2 id="glosario">Glosario breve</h2>
+    <div class="overflow">
+      <table>
+        <thead>
+          <tr><th>Término</th><th>Significado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>VLAN</strong></td><td>LAN virtual: conjunto lógico de puertos de switch en la misma red de capa 2.</td></tr>
+          <tr><td><strong>Trunk</strong></td><td>Enlace que transporta varias VLAN con etiquetado 802.1Q.</td></tr>
+          <tr><td><strong>802.1Q</strong></td><td>Norma IEEE que añade una etiqueta de 4 bytes en Ethernet para la VLAN.</td></tr>
+          <tr><td><strong>VLSM</strong></td><td>Máscaras de longitud variable; optimiza el uso de espacio de direcciones.</td></tr>
+          <tr><td><strong>Router on a stick</strong></td><td>Un router enruta entre VLAN por subinterfaces sobre un único enlace troncal.</td></tr>
+          <tr><td><strong>Subinterfaz</strong></td><td>Interfaz lógica (p. ej. G0/0.10) con su VLAN y su IP (IPv4/IPv6).</td></tr>
+          <tr><td><strong>Gateway</strong></td><td>IP del router en la subred; los hosts la usan para alcanzar otras redes.</td></tr>
+          <tr><td><strong>Link-local (IPv6)</strong></td><td>FE80::/10, válida solo en el enlace. Suele acompañar a toda interfaz activa.</td></tr>
+          <tr><td><strong>Passive interface</strong></td><td>El protocolo de enrutamiento no envía hellos por esa interfaz (mayor control en borde LAN).</td></tr>
+          <tr><td><strong>.pkt</strong></td><td>Formato de archivo de simulación de Packet Tracer.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="archivos">Archivos de apoyo (carpeta del proyecto)</h2>
+    <p class="intro" style="margin-bottom:1rem">Puede descargar o abrir en el equipo la documentación y la plantilla de cálculos entregada con el repositorio. El contenido de esta página resume y ordena el tutorial en formato web; los documentos oficiales conservan el detalle, figuras y criterio de su instructor.</p>
+    <ul style="list-style:none;margin-left:0">
+      <li>
+        <div class="file">
+          <span class="file-ico" aria-hidden="true">📄</span>
+          <div>
+            <a href="GA4-220501104-AA1-EV01_Tutorial_PacketTracer9_SENA.docx">Tutorial — Packet Tracer 9 (Word)</a>
+            <p>Guía original con capturas, checklist de Zajuna y nombre sugerido de entregables.</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="file">
+          <span class="file-ico" aria-hidden="true">📊</span>
+          <div>
+            <a href="GA4-220501104-AA1-EV01_Tutorial_SENA_v2.pptx">Presentación — apoyo a la tutoría (PowerPoint)</a>
+            <p>Contenido en diapositivas para la explicación en aula o repaso.</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="file">
+          <span class="file-ico" aria-hidden="true">📐</span>
+          <div>
+            <a href="GA4-220501104-AA1-EV01_Calculos_SENA.xlsx">Cálculos (Excel)</a>
+            <p>Hoja de cálculo VLSM y tablas de direccionamiento asociadas a la evidencia.</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <p class="note">En un sitio estático publicado, estos enlaces suelen forzar la descarga; en local, el sistema puede abrirlos con la aplicación predeterminada.</p>
+  </div>
+</body>
+</html>
