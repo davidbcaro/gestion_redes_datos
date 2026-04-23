@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes desde Cero — Empresa Enter Ltda.</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161d;
+    --bg3: #1a1e28;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #8b90a0;
+    --text3: #555a6a;
+    --blue: #4d8ef0;
+    --blue-dim: rgba(77,142,240,0.15);
+    --blue-glow: rgba(77,142,240,0.3);
+    --green: #3ecf8e;
+    --green-dim: rgba(62,207,142,0.12);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.12);
+    --orange: #fb923c;
+    --orange-dim: rgba(251,146,60,0.12);
+    --teal: #2dd4bf;
+    --teal-dim: rgba(45,212,191,0.12);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.12);
+    --font: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --r: 10px;
+    --r2: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue-glow); }
+  .header-badge { font-size: 11px; background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(77,142,240,0.3); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+
+  /* ── PROGRESS ── */
+  .progress-bar { position: fixed; top: 56px; left: 0; width: 0%; height: 3px; background: var(--blue); z-index: 99; transition: width .4s ease; box-shadow: 0 0 10px var(--blue-glow); }
+
+  /* ── LAYOUT ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ── STEP NAV ── */
+  .step-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 0 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .step-nav::-webkit-scrollbar { display: none; }
+  .step-pip {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all .2s;
+    font-family: var(--mono);
+  }
+  .step-pip:hover { border-color: var(--blue); color: var(--blue); }
+  .step-pip.done { background: rgba(77,142,240,0.2); border-color: var(--blue); color: var(--blue); }
+  .step-pip.active { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 0 12px var(--blue-glow); }
+  .pip-line { flex: 1; height: 1px; background: var(--border); min-width: 12px; flex-shrink: 0; }
+  .pip-line.done { background: rgba(77,142,240,0.4); }
+
+  /* ── SLIDES ── */
+  .slide { display: none; }
+  .slide.active { display: block; animation: slideFade .35s ease; }
+  @keyframes slideFade {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .slide-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-dim);
+    border: 1px solid rgba(77,142,240,0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  h1.slide-title {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .slide-lead {
+    font-size: 16px;
+    color: var(--text2);
+    margin-bottom: 24px;
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  /* ── ANALOGY BOX ── */
+  .analogy {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 var(--r) var(--r) 0;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text2);
+  }
+  .analogy strong { color: var(--text); }
+  .analogy.green { border-left-color: var(--green); }
+  .analogy.purple { border-left-color: var(--purple); }
+  .analogy.orange { border-left-color: var(--orange); }
+
+  /* ── CARDS GRID ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r2);
+    padding: 16px;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .card-icon { font-size: 24px; margin-bottom: 8px; }
+  .card h4 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .card p { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  /* ── INTERACTIVE PANELS ── */
+  .panel {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r2);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .panel-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
+
+  /* ── IP OCTETS ── */
+  .octet-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .octet-btn {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-dim);
+    border: 1px solid rgba(77,142,240,0.3);
+    border-radius: var(--r);
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: all .15s;
+    min-width: 72px;
+    text-align: center;
+  }
+  .octet-btn:hover, .octet-btn.active { background: var(--blue); color: #fff; box-shadow: 0 0 16px var(--blue-glow); }
+  .octet-sep { font-size: 28px; color: var(--text3); font-weight: 300; }
+  .oct-info { font-size: 13px; color: var(--text2); line-height: 1.7; min-height: 48px; padding: 10px 14px; background: var(--bg2); border-radius: var(--r); border: 1px solid var(--border); }
+  .oct-info strong { color: var(--blue); }
+
+  /* ── BITS ── */
+  .bit-labels { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+  .bit-lbl { width: 36px; text-align: center; font-size: 10px; color: var(--text3); font-family: var(--mono); }
+  .bits-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+  .bit {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+  }
+  .bit.on  { background: var(--blue); color: #fff; box-shadow: 0 0 10px var(--blue-glow); }
+  .bit.off { background: var(--bg2); color: var(--text3); border: 1px solid var(--border); }
+  .bit.on:hover  { transform: scale(1.1); }
+  .bit.off:hover { border-color: var(--blue); color: var(--blue); }
+  .bin-result { font-size: 14px; color: var(--text2); }
+  .bin-result span { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--green); }
+
+  /* ── CLASS BAR ── */
+  .class-bar { display: flex; height: 48px; border-radius: var(--r); overflow: hidden; margin-bottom: 14px; gap: 2px; }
+  .class-seg {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.9);
+    cursor: pointer; transition: opacity .15s; flex-shrink: 0;
+    border-radius: 6px;
+  }
+  .class-seg:hover { opacity: .8; filter: brightness(1.15); }
+  .class-seg.active { outline: 2px solid #fff; outline-offset: 2px; }
+  .class-detail {
+    background: var(--bg2);
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.8;
+    min-height: 80px;
+  }
+  .class-detail strong { color: var(--text); }
+
+  /* ── MASK BITS ── */
+  .mask-table { display: flex; flex-direction: column; gap: 10px; }
+  .mask-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .mask-lbl { font-size: 12px; color: var(--text3); width: 80px; flex-shrink: 0; font-family: var(--mono); }
+  .mask-bits { display: flex; gap: 3px; flex-wrap: wrap; }
+  .mbit {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+  }
+  .mbit.net  { background: rgba(77,142,240,0.25); color: var(--blue); }
+  .mbit.host { background: rgba(62,207,142,0.2); color: var(--green); }
+  .mask-oct-gap { width: 8px; }
+
+  /* ── PREFIJO BUTTONS ── */
+  .prefix-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .prefix-btn {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: var(--bg2);
+    color: var(--text2);
+    font-family: var(--mono);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .prefix-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .prefix-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  /* ── CIDR TABLE ── */
+  .cidr-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cidr-table th { text-align: left; font-weight: 600; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--text3); padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .cidr-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text2); font-family: var(--mono); font-size: 12px; }
+  .cidr-table tr:last-child td { border-bottom: none; }
+  .cidr-table tr.hl td { background: var(--blue-dim); color: var(--blue); }
+  .cidr-table td.note { font-family: var(--font); color: var(--text3); font-size: 12px; }
+
+  /* ── VLSM BAR ── */
+  .vlsm-bar { display: flex; height: 60px; border-radius: var(--r); overflow: hidden; margin-bottom: 12px; gap: 2px; }
+  .vlsm-seg {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; color: rgba(255,255,255,.9);
+    cursor: pointer; transition: all .15s; flex-shrink: 0;
+    border-radius: 8px; padding: 4px; line-height: 1.3; text-align: center;
+  }
+  .vlsm-seg:hover { filter: brightness(1.2); transform: scaleY(1.04); }
+  .vlsm-seg.active { outline: 2px solid #fff; outline-offset: 2px; }
+
+  /* ── STEP PILLS ── */
+  .step-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .step-pill {
+    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    background: var(--bg2); color: var(--text3); border: 1px solid var(--border);
+    cursor: pointer; transition: all .15s;
+  }
+  .step-pill:hover { color: var(--text2); border-color: var(--border2); }
+  .step-pill.active { background: var(--blue-dim); color: var(--blue); border-color: rgba(77,142,240,0.4); }
+  .step-content { background: var(--bg2); border-radius: var(--r); border: 1px solid var(--border); padding: 14px 16px; font-size: 13px; color: var(--text2); line-height: 1.8; min-height: 100px; }
+  .step-content strong { color: var(--text); }
+  .step-content code { font-family: var(--mono); font-size: 12px; color: var(--green); background: rgba(62,207,142,0.1); padding: 1px 6px; border-radius: 4px; }
+
+  /* ── VLAN BUILDING ── */
+  .vlan-building { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .vlan-floor {
+    border-radius: var(--r2);
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all .2s;
+    border: 1px solid transparent;
+  }
+  .vlan-floor:hover { transform: translateX(4px); filter: brightness(1.1); }
+  .vlan-floor.active { outline: 2px solid rgba(255,255,255,.5); }
+  .vlan-floor h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .vlan-floor p { font-size: 12px; opacity: .8; }
+
+  /* ── IPV6 GROUPS ── */
+  .ipv6-groups { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+  .ipv6-g {
+    font-family: var(--mono); font-size: 16px; font-weight: 600;
+    padding: 8px 12px; border-radius: 8px; cursor: pointer;
+    transition: all .15s; text-transform: uppercase;
+  }
+  .ipv6-g:hover { transform: scale(1.05); filter: brightness(1.2); }
+  .ipv6-g.pref  { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(77,142,240,.3); }
+  .ipv6-g.sub   { background: var(--green-dim); color: var(--green); border: 1px solid rgba(62,207,142,.3); }
+  .ipv6-g.iface { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,.3); }
+  .ipv6-sep { font-size: 20px; color: var(--text3); }
+
+  /* ── SUMMARY GRID ── */
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .summary-box { border-radius: var(--r); padding: 12px 14px; font-size: 12px; line-height: 1.6; }
+  .summary-box strong { display: block; font-size: 13px; margin-bottom: 4px; }
+
+  /* ── NAV FOOTER ── */
+  .nav-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: var(--r);
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+  }
+  .nav-btn.prev { background: var(--bg3); border: 1px solid var(--border2); color: var(--text2); }
+  .nav-btn.prev:hover { border-color: var(--blue); color: var(--blue); }
+  .nav-btn.next { background: var(--blue); border: 1px solid var(--blue); color: #fff; }
+  .nav-btn.next:hover { box-shadow: 0 0 20px var(--blue-glow); transform: translateY(-1px); }
+  .nav-btn:disabled { opacity: .3; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+  .nav-center { font-size: 13px; color: var(--text3); text-align: center; }
+  .nav-center strong { color: var(--text2); display: block; font-size: 12px; margin-top: 2px; }
+
+  /* ── CODE BLOCK ── */
+  pre.code-block {
+    background: #0a0c11;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    overflow-x: auto;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  pre.code-block .kw  { color: var(--blue); }
+  pre.code-block .cmt { color: var(--text3); font-style: italic; }
+  pre.code-block .str { color: var(--orange); }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } .summary-grid { grid-template-columns: 1fr; } }
+
+  /* ── TOOLTIP ── */
+  .info-box {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 12px 14px;
+    font-size: 13px; color: var(--text2); line-height: 1.7; min-height: 60px;
+  }
+  .info-box strong { color: var(--text); }
+  .info-box code { font-family: var(--mono); font-size: 12px; color: var(--green); background: rgba(62,207,142,0.1); padding: 1px 6px; border-radius: 4px; }
+
+  /* ── HIGHLIGHT CHIP ── */
+  .chip { display: inline-block; font-family: var(--mono); font-size: 12px; background: var(--green-dim); color: var(--green); border: 1px solid rgba(62,207,142,.25); padding: 2px 8px; border-radius: 6px; margin: 1px; }
+  .chip.blue { background: var(--blue-dim); color: var(--blue); border-color: rgba(77,142,240,.25); }
+  .chip.purple { background: var(--purple-dim); color: var(--purple); border-color: rgba(167,139,250,.25); }
+  .chip.orange { background: var(--orange-dim); color: var(--orange); border-color: rgba(251,146,60,.25); }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Redes desde Cero — Enter Ltda.
+  </div>
+  <span class="header-badge">SENA · Tecnología en Redes</span>
+</header>
+<div class="progress-bar" id="prog-bar"></div>
+
+<div class="main">
+  <div class="step-nav" id="step-nav"></div>
+  <div id="slides-container">
+
+    <!-- ═══════════════════════════════ SLIDE 0 ═══════════════════ -->
+    <div class="slide active" id="s0">
+      <div class="slide-tag">📡 Fundamento 1</div>
+      <h1 class="slide-title">¿Qué es una red de computadores?</h1>
+      <p class="slide-lead">Antes de hablar de IPs, máscaras o VLANs, necesitamos entender para qué sirve una red. Todo parte de aquí.</p>
+
+      <div class="analogy">
+        <strong>🏙️ Imagina una ciudad.</strong> Las casas son los computadores. Las calles son los cables (o el WiFi). El sistema postal es la red. Para que una carta llegue a su destino, necesitas una <strong>dirección única</strong> para cada casa y <strong>rutas claras</strong> entre ellas. Si dos casas tienen la misma dirección: caos total.
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🖥️</div>
+          <h4>Dispositivos (hosts)</h4>
+          <p>PC, teléfonos, impresoras, servidores — cualquier equipo que se conecta. Son las "casas" de la ciudad.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📡</div>
+          <h4>Medios de transmisión</h4>
+          <p>Cables de red, WiFi, fibra óptica. Son las "calles y autopistas" por donde viaja la información.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔀</div>
+          <h4>Switch</h4>
+          <p>El cartero del barrio. Distribuye mensajes dentro de la misma red local. Recuerda qué dispositivo está en cada puerto.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h4>Router</h4>
+          <p>El director de correos. Conecta redes diferentes entre sí. Decide el mejor camino para cada paquete de datos.</p>
+        </div>
+      </div>
+
+      <div class="analogy green">
+        <strong>🏢 ¿Por qué importa esto para Enter Ltda.?</strong><br>
+        La empresa tiene 190 personas en 4 departamentos. Sin una red bien diseñada, todos comparten el mismo "carril" y se producen: lentitud, colisiones de datos y serios riesgos de seguridad (Finanzas podría ver información de Visitantes y viceversa). Las VLANs solucionan esto.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 1 ═══════════════════ -->
+    <div class="slide" id="s1">
+      <div class="slide-tag">🏠 Fundamento 2</div>
+      <h1 class="slide-title">¿Qué es una dirección IP?</h1>
+      <p class="slide-lead">Es el "número de casa" de cada dispositivo. Sin dirección IP, el dispositivo es invisible para la red.</p>
+
+      <div class="analogy">
+        <strong>📬 Analogía postal:</strong> Tu apartamento tiene una dirección: "Calle 80 # 15-42, Bogotá". Un computador tiene una IP: <strong>192.168.1.10</strong>. Al igual que no puede haber dos apartamentos con la misma dirección en la misma ciudad, no puede haber dos dispositivos con la misma IP en la misma red.
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Toca cada número para entender qué representa</div>
+        <div class="octet-row">
+          <button class="octet-btn" id="ob0" onclick="showOctet(0)">192</button>
+          <span class="octet-sep">.</span>
+          <button class="octet-btn" id="ob1" onclick="showOctet(1)">168</button>
+          <span class="octet-sep">.</span>
+          <button class="octet-btn" id="ob2" onclick="showOctet(2)">1</button>
+          <span class="octet-sep">.</span>
+          <button class="octet-btn" id="ob3" onclick="showOctet(3)">10</button>
+        </div>
+        <div class="oct-info" id="oct-info">👆 Toca cualquier número para aprender qué significa ese octeto</div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🔒</div>
+          <h4>IP privada</h4>
+          <p>Solo funciona dentro de tu LAN. No llega a Internet. Las más comunes: <strong>192.168.x.x</strong>, <strong>10.x.x.x</strong></p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌍</div>
+          <h4>IP pública</h4>
+          <p>La que ve el mundo entero. Te la asigna tu ISP. Es única en todo Internet.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚙️</div>
+          <h4>IP estática</h4>
+          <p>Siempre la misma, configurada manualmente. Para routers, servidores e impresoras de red.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔄</div>
+          <h4>IP dinámica</h4>
+          <p>Asignada automáticamente por DHCP. Puede cambiar. La más común en PCs y teléfonos.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 2 ═══════════════════ -->
+    <div class="slide" id="s2">
+      <div class="slide-tag">💡 Fundamento 3</div>
+      <h1 class="slide-title">El binario en 3 minutos</h1>
+      <p class="slide-lead">Los computadores no leen "192" — leen "11000000". Entender el binario es la clave para entender las máscaras de subred.</p>
+
+      <div class="analogy">
+        <strong>💡 Analogía de los interruptores:</strong> El sistema decimal usa 10 dígitos (0 al 9). El binario solo usa 2: <strong>0 = apagado</strong> y <strong>1 = encendido</strong>. Es como una fila de 8 interruptores de luz. La combinación de encendidos y apagados forma cualquier número del 0 al 255.
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Toca los interruptores para encender/apagar y ver el valor</div>
+        <div class="bit-labels" id="bit-labels"></div>
+        <div class="bits-row" id="bits-row"></div>
+        <div class="bin-result">Valor decimal: <span id="bin-val">192</span></div>
+        <div style="font-size:12px;color:var(--text3);margin-top:6px">Binario: <span id="bin-str" style="font-family:var(--mono);color:var(--text2)">11000000</span></div>
+      </div>
+
+      <div class="analogy purple">
+        <strong>🔑 Lo que debes recordar:</strong><br>
+        • Cada <strong>octeto</strong> tiene 8 bits → valores del <strong>0 al 255</strong><br>
+        • Una IPv4 tiene <strong>4 octetos = 32 bits</strong><br>
+        • El máximo por octeto: <code style="font-family:var(--mono);font-size:12px">11111111 = 255</code><br>
+        • Total de IPs posibles en IPv4: 2³² = <strong>4.294.967.296</strong> (ya se agotaron, por eso existe IPv6)
+      </div>
+
+      <div class="two-col">
+        <div class="panel" style="margin:0">
+          <div class="panel-label">Decimal → Binario</div>
+          <div style="font-size:13px;color:var(--text2)">
+            192 = <span class="chip">128+64</span> = <span class="chip">11000000</span><br>
+            168 = <span class="chip">128+32+8</span> = <span class="chip">10101000</span><br>
+            255 = <span class="chip">todos los bits</span> = <span class="chip">11111111</span><br>
+            0   = <span class="chip">ningún bit</span> = <span class="chip">00000000</span>
+          </div>
+        </div>
+        <div class="panel" style="margin:0">
+          <div class="panel-label">Potencias de 2 (posiciones)</div>
+          <div style="font-size:13px;color:var(--text2)">
+            Bit 8: <span class="chip blue">128</span>&nbsp; Bit 7: <span class="chip blue">64</span>&nbsp; Bit 6: <span class="chip blue">32</span>&nbsp; Bit 5: <span class="chip blue">16</span><br>
+            Bit 4: <span class="chip blue">8</span>&nbsp; Bit 3: <span class="chip blue">4</span>&nbsp; Bit 2: <span class="chip blue">2</span>&nbsp; Bit 1: <span class="chip blue">1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 3 ═══════════════════ -->
+    <div class="slide" id="s3">
+      <div class="slide-tag">📚 Fundamento 4</div>
+      <h1 class="slide-title">Clases de direcciones IPv4</h1>
+      <p class="slide-lead">Las IPs se dividen en "clases" según el tamaño de la red. Cada clase sirve para un tipo de organización diferente.</p>
+
+      <div class="analogy">
+        <strong>🍕 Analogía de las pizzas:</strong> Clase A = pizza familiar gigante (para Google, Amazon). Clase B = pizza grande (para universidades). Clase C = pizza personal (para empresas como Enter Ltda.). Para nuestra práctica usaremos siempre <strong>Clase C → 192.168.1.0/24</strong>.
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Toca cada clase para ver sus características</div>
+        <div class="class-bar" id="class-bar">
+          <div class="class-seg" style="background:#185FA5;width:50%" onclick="selectClass('A',this)">Clase A</div>
+          <div class="class-seg" style="background:#0F6E56;width:25%" onclick="selectClass('B',this)">Clase B</div>
+          <div class="class-seg" style="background:#6B2FA0;width:12.5%" onclick="selectClass('C',this)">C</div>
+          <div class="class-seg" style="background:#9A3412;width:6.25%" onclick="selectClass('D',this)">D</div>
+          <div class="class-seg" style="background:#44403c;width:6.25%" onclick="selectClass('E',this)">E</div>
+        </div>
+        <div class="class-detail" id="class-detail">👆 Toca una clase para ver su rango, máscara y cuántos hosts soporta</div>
+      </div>
+
+      <div class="analogy green">
+        <strong>🔒 Rangos privados (RFC 1918) — los más importantes:</strong><br>
+        Clase A: <span class="chip">10.0.0.0 – 10.255.255.255</span> → <strong>16.777.214 hosts</strong><br>
+        Clase B: <span class="chip">172.16.0.0 – 172.31.255.255</span> → <strong>1.048.574 hosts</strong><br>
+        Clase C: <span class="chip">192.168.0.0 – 192.168.255.255</span> → <strong>65.534 hosts</strong> ← Enter Ltda. usa 192.168.1.x
+      </div>
+
+      <div class="analogy orange">
+        <strong>⚠️ Direcciones especiales que debes conocer:</strong><br>
+        <span class="chip orange">127.0.0.1</span> = Loopback (localhost) — prueba tu propia tarjeta de red<br>
+        <span class="chip orange">255.255.255.255</span> = Broadcast general — llega a todos en la red<br>
+        <span class="chip orange">169.254.x.x</span> = APIPA — se asigna si el DHCP falla (señal de problema)
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 4 ═══════════════════ -->
+    <div class="slide" id="s4">
+      <div class="slide-tag">🎭 Fundamento 5</div>
+      <h1 class="slide-title">La máscara de subred</h1>
+      <p class="slide-lead">La máscara le dice a los dispositivos cuál parte de la IP identifica la <em>red</em> y cuál identifica al <em>dispositivo</em> dentro de esa red.</p>
+
+      <div class="analogy">
+        <strong>🏙️ Analogía:</strong> En "Calle 80 # 15-42, Bogotá" — <strong>"Bogotá"</strong> es la parte de red (todos en Bogotá comparten eso) y <strong>"Calle 80 # 15-42"</strong> es el host. La máscara actúa como el sello postal que separa ciudad de dirección exacta.
+      </div>
+
+      <div class="prefix-btns" id="pfx-btns">
+        <button class="prefix-btn active" onclick="showMask(8,this)">/8 · Clase A</button>
+        <button class="prefix-btn" onclick="showMask(16,this)">/16 · Clase B</button>
+        <button class="prefix-btn" onclick="showMask(24,this)">/24 · Clase C</button>
+        <button class="prefix-btn" onclick="showMask(25,this)">/25</button>
+        <button class="prefix-btn" onclick="showMask(26,this)">/26</button>
+        <button class="prefix-btn" onclick="showMask(27,this)">/27</button>
+        <button class="prefix-btn" onclick="showMask(30,this)">/30</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Visualización de bits — <span style="color:var(--blue)">■ RED</span> vs <span style="color:var(--green)">■ HOST</span></div>
+        <div class="mask-table" id="mask-table"></div>
+        <div class="info-box" style="margin-top:12px" id="mask-info">Selecciona un prefijo arriba</div>
+      </div>
+
+      <div class="panel" style="padding:14px">
+        <div class="panel-label">Tabla de prefijos más usados en esta práctica</div>
+        <table class="cidr-table">
+          <thead><tr><th>Prefijo</th><th>Máscara</th><th>Hosts útiles</th><th>Uso en Enter Ltda.</th></tr></thead>
+          <tbody>
+            <tr><td>/24</td><td>255.255.255.0</td><td>254</td><td class="note">Red completa (base)</td></tr>
+            <tr class="hl" id="tr25"><td>/25</td><td>255.255.255.128</td><td>126</td><td class="note" style="font-family:var(--font);color:var(--blue)">VLAN 40 Visitantes ✓</td></tr>
+            <tr class="hl" id="tr26"><td>/26</td><td>255.255.255.192</td><td>62</td><td class="note" style="font-family:var(--font);color:var(--blue)">VLAN 20 Financiera ✓</td></tr>
+            <tr class="hl" id="tr27"><td>/27</td><td>255.255.255.224</td><td>30</td><td class="note" style="font-family:var(--font);color:var(--blue)">VLAN 10 y 30 ✓</td></tr>
+            <tr><td>/30</td><td>255.255.255.252</td><td>2</td><td class="note">Entre routers</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:12px;color:var(--text3);margin-top:10px">
+          Fórmula: Hosts útiles = 2<sup>n</sup> − 2 &nbsp;(n = bits de host) &nbsp;|&nbsp; Se restan 2 porque la dirección de red y el broadcast no son asignables
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 5 ═══════════════════ -->
+    <div class="slide" id="s5">
+      <div class="slide-tag">✂️ Fundamento 6</div>
+      <h1 class="slide-title">Subnetting y VLSM</h1>
+      <p class="slide-lead">VLSM (Variable Length Subnet Masking) permite cortar una red en subredes de tamaño exacto — sin desperdiciar ni una sola IP.</p>
+
+      <div class="analogy">
+        <strong>🏗️ Analogía del terreno:</strong> Tienes un lote de 256 m². Necesitas 4 apartamentos: uno grande (128 m²), uno mediano (64 m²) y dos pequeños (32 m² c/u). No puedes hacer cuatro iguales porque desperdiciarías espacio. VLSM hace lo mismo con las IPs: le da a cada VLAN exactamente el espacio que necesita.
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Red 192.168.1.0/24 — 256 IPs — Toca cada segmento para ver detalles</div>
+        <div class="vlsm-bar" id="vlsm-bar">
+          <div class="vlsm-seg" style="background:#185FA5;width:50%" onclick="showVlsm(0,this)">VLAN 40<br>/25<br>126 hosts</div>
+          <div class="vlsm-seg" style="background:#6B2FA0;width:25%" onclick="showVlsm(1,this)">VLAN 20<br>/26<br>62 hosts</div>
+          <div class="vlsm-seg" style="background:#0F6E56;width:12.5%" onclick="showVlsm(2,this)">VLAN 10<br>/27</div>
+          <div class="vlsm-seg" style="background:#3B6D11;width:12.5%" onclick="showVlsm(3,this)">VLAN 30<br>/27</div>
+        </div>
+        <div class="class-detail" id="vlsm-info">👆 Toca un segmento para ver dirección de red, gateway, broadcast y hosts de esa VLAN</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Pasos para calcular VLSM — Toca cada paso</div>
+        <div class="step-pills" id="step-pills">
+          <button class="step-pill active" onclick="showStep(0,this)">1 · Ordenar</button>
+          <button class="step-pill" onclick="showStep(1,this)">2 · Calcular prefijo</button>
+          <button class="step-pill" onclick="showStep(2,this)">3 · Asignar red</button>
+          <button class="step-pill" onclick="showStep(3,this)">4 · Gateway</button>
+          <button class="step-pill" onclick="showStep(4,this)">5 · Broadcast</button>
+        </div>
+        <div class="step-content" id="step-content"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 6 ═══════════════════ -->
+    <div class="slide" id="s6">
+      <div class="slide-tag">🏢 Fundamento 7</div>
+      <h1 class="slide-title">¿Qué es una VLAN?</h1>
+      <p class="slide-lead">Una VLAN divide un switch físico en múltiples redes lógicas independientes. Mismo cable, redes completamente separadas.</p>
+
+      <div class="analogy">
+        <strong>🏢 Analogía del edificio:</strong> En un edificio de oficinas, Finanzas está en el piso 3 y Sistemas en el piso 5. Aunque usan el mismo ascensor (switch) y los mismos pasillos (cables), con VLANs Finanzas nunca puede "escuchar" las conversaciones de Sistemas. Son mundos separados en el mismo edificio físico.
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Edificio Enter Ltda. — Toca cada piso para ver los detalles de esa VLAN</div>
+        <div class="vlan-building">
+          <div class="vlan-floor" style="background:rgba(24,95,165,0.3);border-color:rgba(77,142,240,0.4)" onclick="showVlan(10,this)">
+            <h4>🔵 VLAN 10 — Administrativa &nbsp;·&nbsp; 20 hosts</h4>
+            <p>Piso Gerencial · Recursos Humanos · Gestión</p>
+          </div>
+          <div class="vlan-floor" style="background:rgba(107,47,160,0.3);border-color:rgba(167,139,250,0.4)" onclick="showVlan(20,this)">
+            <h4>🟣 VLAN 20 — Financiera &nbsp;·&nbsp; 50 hosts</h4>
+            <p>Contabilidad · Tesorería · Presupuesto</p>
+          </div>
+          <div class="vlan-floor" style="background:rgba(15,110,86,0.3);border-color:rgba(62,207,142,0.4)" onclick="showVlan(30,this)">
+            <h4>🟢 VLAN 30 — Técnicos &nbsp;·&nbsp; 20 hosts</h4>
+            <p>Soporte TI · Servidores · Infraestructura de red</p>
+          </div>
+          <div class="vlan-floor" style="background:rgba(154,52,18,0.3);border-color:rgba(251,146,60,0.4)" onclick="showVlan(40,this)">
+            <h4>🟠 VLAN 40 — Visitantes &nbsp;·&nbsp; 100 hosts</h4>
+            <p>Sala de espera · Sala de reuniones · Lobby WiFi</p>
+          </div>
+        </div>
+        <div class="info-box" id="vlan-info">👆 Toca un piso para ver dirección IP, gateway, máscara y broadcast</div>
+      </div>
+
+      <div class="analogy green">
+        <strong>🔒 ¿Por qué separar Visitantes en VLAN 40?</strong><br>
+        Un visitante con su teléfono conectado al WiFi <strong>nunca</strong> debe poder ver los archivos de Finanzas o los servidores internos. La VLAN 40 los aísla completamente. Solo tienen acceso a Internet, no a la red interna de la empresa.
+      </div>
+
+      <div class="two-col">
+        <div class="panel" style="margin:0">
+          <div class="panel-label">Puerto ACCESS (hacia PC)</div>
+          <pre class="code-block"><span class="kw">SW1(config)#</span> interface fa0/1
+<span class="kw">SW1(config-if)#</span> switchport mode access
+<span class="kw">SW1(config-if)#</span> switchport access vlan 10</pre>
+        </div>
+        <div class="panel" style="margin:0">
+          <div class="panel-label">Puerto TRUNK (hacia Router)</div>
+          <pre class="code-block"><span class="kw">SW1(config)#</span> interface gi0/1
+<span class="kw">SW1(config-if)#</span> switchport mode trunk
+<span class="kw">SW1(config-if)#</span> switchport trunk allowed vlan 10,20,30,40</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 7 ═══════════════════ -->
+    <div class="slide" id="s7">
+      <div class="slide-tag">🚀 Fundamento 8</div>
+      <h1 class="slide-title">IPv6 — La siguiente generación</h1>
+      <p class="slide-lead">IPv4 tiene ~4.000 millones de direcciones. Ya se agotaron. IPv6 crea un espacio de direcciones prácticamente infinito.</p>
+
+      <div class="analogy">
+        <strong>🏙️ Analogía:</strong> IPv4 es como una ciudad construida en 1980 con 4.000 millones de lotes — ya están todos ocupados. IPv6 construyó un universo paralelo con 340 sextillones de direcciones. Ni en mil millones de años se agotan.
+      </div>
+
+      <div class="panel">
+        <div class="panel-label">Estructura IPv6 — 128 bits en 8 grupos de 16. Toca cada grupo</div>
+        <div class="ipv6-groups">
+          <div class="ipv6-g pref" onclick="showIPv6(0)">2001</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g pref" onclick="showIPv6(1)">0DB8</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g pref" onclick="showIPv6(2)">ACAD</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g sub"  onclick="showIPv6(3)">0010</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g iface" onclick="showIPv6(4)">0000</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g iface" onclick="showIPv6(5)">0000</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g iface" onclick="showIPv6(6)">0000</div><span class="ipv6-sep">:</span>
+          <div class="ipv6-g iface" onclick="showIPv6(7)">0001</div>
+        </div>
+        <div class="info-box" id="ipv6-info">
+          👆 Toca cualquier grupo para entender qué parte de la dirección representa.<br>
+          🔵 Azul = prefijo global (la empresa) &nbsp;·&nbsp; 🟢 Verde = ID de subred/VLAN &nbsp;·&nbsp; 🟣 Morado = ID del dispositivo
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">✂️</div>
+          <h4>Abreviación: ceros al inicio</h4>
+          <p><code style="font-family:var(--mono);color:var(--orange)">0010 → 10</code><br><code style="font-family:var(--mono);color:var(--orange)">0DB8 → DB8</code><br>Se omiten ceros a la izquierda de cada grupo.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">✂️</div>
+          <h4>Abreviación: doble dos puntos</h4>
+          <p><code style="font-family:var(--mono);color:var(--orange)">0:0:0:0 → ::</code><br>Grupos consecutivos de ceros se comprimen. Solo se usa <strong>::</strong> una vez.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <h4>Subred /64 por VLAN</h4>
+          <p>Cada VLAN recibe un /64. Eso equivale a 18.000.000.000.000.000.000 hosts por subred.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🚫</div>
+          <h4>Sin broadcast</h4>
+          <p>IPv6 usa <strong>multicast</strong> en lugar de broadcast. Más eficiente y no satura la red con tráfico innecesario.</p>
+        </div>
+      </div>
+
+      <div class="panel" style="padding:14px">
+        <div class="panel-label">Direcciones IPv6 para Enter Ltda.</div>
+        <table class="cidr-table">
+          <thead><tr><th>VLAN</th><th>Nombre</th><th>Red IPv6</th><th>Gateway</th></tr></thead>
+          <tbody>
+            <tr><td>10</td><td class="note">Administrativa</td><td>2001:DB8:ACAD:10::/64</td><td>2001:DB8:ACAD:10::1/64</td></tr>
+            <tr><td>20</td><td class="note">Financiera</td><td>2001:DB8:ACAD:20::/64</td><td>2001:DB8:ACAD:20::1/64</td></tr>
+            <tr><td>30</td><td class="note">Técnicos</td><td>2001:DB8:ACAD:30::/64</td><td>2001:DB8:ACAD:30::1/64</td></tr>
+            <tr><td>40</td><td class="note">Visitantes</td><td>2001:DB8:ACAD:40::/64</td><td>2001:DB8:ACAD:40::1/64</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:12px;color:var(--text3);margin-top:8px">Comando en el router: <code style="font-family:var(--mono);color:var(--green)">ipv6 unicast-routing</code> y luego <code style="font-family:var(--mono);color:var(--green)">ipv6 address</code> en cada subinterfaz.</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════ SLIDE 8 ═══════════════════ -->
+    <div class="slide" id="s8">
+      <div class="slide-tag">🏁 Resumen Final</div>
+      <h1 class="slide-title">Todo conectado — Visión completa</h1>
+      <p class="slide-lead">Aquí está el mapa completo de cómo todos los conceptos que estudiaste se unen para construir la red de Enter Ltda.</p>
+
+      <div class="panel">
+        <div class="panel-label">De la red base a las VLANs configuradas</div>
+        <div style="text-align:center;padding:8px 0 12px">
+          <div style="display:inline-block;background:rgba(77,142,240,0.2);border:1px solid rgba(77,142,240,0.5);border-radius:var(--r2);padding:12px 24px;font-size:15px;font-weight:600;color:var(--blue)">Red principal: 192.168.1.0/24 · 256 IPs disponibles</div>
+          <div style="color:var(--text3);font-size:22px;margin:10px 0">↓ VLSM</div>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-box" style="background:rgba(24,95,165,0.2);border:1px solid rgba(77,142,240,0.3)">
+            <strong style="color:var(--blue)">🔵 VLAN 40 — Visitantes /25</strong>
+            Red: 192.168.1.0<br>GW: 192.168.1.1<br>Broadcast: 192.168.1.127<br>Hosts útiles: <strong>126</strong>
+          </div>
+          <div class="summary-box" style="background:rgba(107,47,160,0.2);border:1px solid rgba(167,139,250,0.3)">
+            <strong style="color:var(--purple)">🟣 VLAN 20 — Financiera /26</strong>
+            Red: 192.168.1.128<br>GW: 192.168.1.129<br>Broadcast: 192.168.1.191<br>Hosts útiles: <strong>62</strong>
+          </div>
+          <div class="summary-box" style="background:rgba(15,110,86,0.2);border:1px solid rgba(62,207,142,0.3)">
+            <strong style="color:var(--green)">🟢 VLAN 10 — Administrativa /27</strong>
+            Red: 192.168.1.192<br>GW: 192.168.1.193<br>Broadcast: 192.168.1.223<br>Hosts útiles: <strong>30</strong>
+          </div>
+          <div class="summary-box" style="background:rgba(59,109,17,0.2);border:1px solid rgba(62,207,142,0.25)">
+            <strong style="color:#6fcf4a">🟩 VLAN 30 — Técnicos /27</strong>
+            Red: 192.168.1.224<br>GW: 192.168.1.225<br>Broadcast: 192.168.1.255<br>Hosts útiles: <strong>30</strong>
+          </div>
+        </div>
+        <div style="text-align:center;color:var(--text3);font-size:13px;margin-top:12px">Total desperdiciado: <strong style="color:var(--green)">0 IPs</strong> — VLSM perfecto ✓</div>
+      </div>
+
+      <div class="panel" style="padding:14px">
+        <div class="panel-label">Comandos clave de verificación en Packet Tracer</div>
+        <table class="cidr-table">
+          <thead><tr><th>Comando</th><th>Dónde</th><th>Qué verifica</th></tr></thead>
+          <tbody>
+            <tr><td>show vlan brief</td><td class="note">Switch</td><td class="note">VLANs creadas y puertos asignados</td></tr>
+            <tr><td>show interfaces trunk</td><td class="note">Switch</td><td class="note">Puerto trunk y VLANs permitidas</td></tr>
+            <tr><td>show ip interface brief</td><td class="note">Router</td><td class="note">Estado de subinterfaces</td></tr>
+            <tr><td>show ip route</td><td class="note">Router</td><td class="note">Redes directamente conectadas</td></tr>
+            <tr><td>ping 192.168.1.130</td><td class="note">PC-Admin</td><td class="note">Conectividad inter-VLAN</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="analogy green">
+        <strong>🎯 Flujo de trabajo para Packet Tracer:</strong><br>
+        <strong>1.</strong> Crear topología (Router + Switch + 4 PCs) →
+        <strong>2.</strong> Crear VLANs en el switch →
+        <strong>3.</strong> Configurar puertos access y trunk →
+        <strong>4.</strong> Configurar subinterfaces en el router (IPv4 + IPv6) →
+        <strong>5.</strong> Asignar IPs a los PCs →
+        <strong>6.</strong> Verificar con ping y show
+      </div>
+
+      <div style="text-align:center;padding:20px 0 8px">
+        <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px">¡Tienes todos los fundamentos!</div>
+        <div style="font-size:14px;color:var(--text2)">Diseñar → Implementar → Verificar</div>
+      </div>
+    </div>
+
+  </div><!-- /slides-container -->
+
+  <div class="nav-footer">
+    <button class="nav-btn prev" id="btn-prev" onclick="changeSlide(-1)" disabled>← Anterior</button>
+    <div class="nav-center">
+      <span id="prog-label">1 / 9</span>
+      <strong id="slide-name-lbl">¿Qué es una red?</strong>
+    </div>
+    <button class="nav-btn next" id="btn-next" onclick="changeSlide(1)">Siguiente →</button>
+  </div>
+</div><!-- /main -->
+
+<script>
+const SLIDES = [
+  '¿Qué es una red?',
+  'Dirección IP',
+  'Sistema binario',
+  'Clases IPv4',
+  'Máscara de subred',
+  'VLSM',
+  'VLANs',
+  'IPv6',
+  'Resumen'
+];
+const N = SLIDES.length;
+let cur = 0;
+
+// ── NAV PIPS ──
+function buildNav() {
+  const nav = document.getElementById('step-nav');
+  nav.innerHTML = '';
+  SLIDES.forEach((name, i) => {
+    if (i > 0) {
+      const line = document.createElement('div');
+      line.className = 'pip-line' + (i <= cur ? ' done' : '');
+      nav.appendChild(line);
+    }
+    const pip = document.createElement('div');
+    pip.className = 'step-pip' + (i < cur ? ' done' : i === cur ? ' active' : '');
+    pip.textContent = i + 1;
+    pip.title = name;
+    pip.onclick = () => goTo(i);
+    nav.appendChild(pip);
+  });
+}
+
+function goTo(i) {
+  document.getElementById('s' + cur).classList.remove('active');
+  cur = Math.max(0, Math.min(N - 1, i));
+  document.getElementById('s' + cur).classList.add('active');
+  buildNav();
+  document.getElementById('prog-label').textContent = (cur + 1) + ' / ' + N;
+  document.getElementById('slide-name-lbl').textContent = SLIDES[cur];
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('btn-next').textContent = cur === N - 1 ? '🎉 Completado' : 'Siguiente →';
+  document.getElementById('btn-next').disabled = cur === N - 1;
+  document.getElementById('prog-bar').style.width = ((cur + 1) / N * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function changeSlide(d) { goTo(cur + d); }
+buildNav();
+
+// ── SLIDE 1: OCTETS ──
+const octData = [
+  { v: '192', msg: '<strong>Primer octeto: 192</strong><br>Empieza con 192 → es una dirección de <strong>Clase C</strong>, usada para redes pequeñas como la de una empresa. El rango 192.168.x.x es privado (RFC 1918) — no sale a Internet.' },
+  { v: '168', msg: '<strong>Segundo octeto: 168</strong><br>Junto con el primer octeto forma <strong>192.168</strong>, confirmando que es una IP privada Clase C. Podría ser 192.168.0.x, 192.168.1.x, 192.168.2.x... hasta 192.168.255.x (256 redes distintas).' },
+  { v: '1',   msg: '<strong>Tercer octeto: 1</strong><br>Identifica la <strong>red específica</strong> dentro del bloque 192.168. Enter Ltda. usa la red .1 (192.168.1.0/24). Si hubiera otra sede, podría usar 192.168.2.0/24, 192.168.3.0/24, etc.' },
+  { v: '10',  msg: '<strong>Cuarto octeto: 10</strong><br>Es el <strong>número del dispositivo</strong> dentro de esa red. El .1 está reservado para el gateway (router). Los dispositivos van del .2 al .254. El .0 es la dirección de red y el .255 es el broadcast.' }
+];
+function showOctet(i) {
+  document.querySelectorAll('.octet-btn').forEach((b, j) => b.classList.toggle('active', j === i));
+  document.getElementById('oct-info').innerHTML = octData[i].msg;
+}
+
+// ── SLIDE 2: BITS ──
+const bitVals = [128, 64, 32, 16, 8, 4, 2, 1];
+let bits = [1, 1, 0, 0, 0, 0, 0, 0];
+(function initBits() {
+  const lbl = document.getElementById('bit-labels');
+  bitVals.forEach(v => {
+    const d = document.createElement('div');
+    d.className = 'bit-lbl';
+    d.textContent = v;
+    lbl.appendChild(d);
+  });
+  renderBits();
+})();
+function renderBits() {
+  const row = document.getElementById('bits-row');
+  row.innerHTML = '';
+  bits.forEach((b, i) => {
+    const d = document.createElement('div');
+    d.className = 'bit ' + (b ? 'on' : 'off');
+    d.textContent = b;
+    d.onclick = () => { bits[i] = 1 - bits[i]; renderBits(); };
+    row.appendChild(d);
+  });
+  const v = bits.reduce((s, b, i) => s + b * bitVals[i], 0);
+  document.getElementById('bin-val').textContent = v;
+  document.getElementById('bin-str').textContent = bits.join('');
+}
+
+// ── SLIDE 3: CLASSES ──
+const classInfo = {
+  A: '<strong>Clase A (1.0.0.0 – 126.255.255.255)</strong><br>Máscara por defecto: /8 (255.0.0.0)<br>Redes posibles: 126 · Hosts por red: 16.777.214<br>Primer bit siempre en 0 (0xxxxxxx)<br>Uso: Grandes corporaciones, gobiernos, ISPs — prácticamente todas ocupadas.',
+  B: '<strong>Clase B (128.0.0.0 – 191.255.255.255)</strong><br>Máscara por defecto: /16 (255.255.0.0)<br>Redes posibles: 16.384 · Hosts por red: 65.534<br>Primeros 2 bits: 10xxxxxx<br>Uso: Medianas y grandes empresas, universidades.',
+  C: '<strong>Clase C (192.0.0.0 – 223.255.255.255)</strong><br>Máscara por defecto: /24 (255.255.255.0)<br>Redes posibles: 2.097.152 · Hosts por red: 254<br>Primeros 3 bits: 110xxxxx<br>Uso: Redes pequeñas y medianas. <strong>← Enter Ltda. usa 192.168.1.0 de esta clase.</strong>',
+  D: '<strong>Clase D (224.0.0.0 – 239.255.255.255)</strong><br>No tiene máscara de subred estándar.<br>Primeros 4 bits: 1110xxxx<br>Uso: Multicast — transmisiones simultáneas a múltiples destinos. Ejemplo: OSPF hello packets (224.0.0.5), streaming de video.',
+  E: '<strong>Clase E (240.0.0.0 – 255.255.255.255)</strong><br>No tiene máscara de subred estándar.<br>Primeros 4 bits: 1111xxxx<br>Uso: Reservada para investigación y uso experimental. No se utiliza en redes comerciales ni en esta práctica.'
+};
+function selectClass(c, el) {
+  document.querySelectorAll('.class-seg').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('class-detail').innerHTML = classInfo[c];
+}
+
+// ── SLIDE 4: MASK ──
+function showMask(n, btn) {
+  document.querySelectorAll('.prefix-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const table = document.getElementById('mask-table');
+  table.innerHTML = '';
+  const makeRow = (label, bitsArr, classFn) => {
+    const row = document.createElement('div'); row.className = 'mask-row';
+    const lbl = document.createElement('div'); lbl.className = 'mask-lbl'; lbl.textContent = label;
+    const bits = document.createElement('div'); bits.className = 'mask-bits';
+    bitsArr.forEach((b, i) => {
+      if (i > 0 && i % 8 === 0) { const gap = document.createElement('div'); gap.className = 'mask-oct-gap'; bits.appendChild(gap); }
+      const d = document.createElement('div');
+      d.className = 'mbit ' + classFn(i, b);
+      d.textContent = b;
+      bits.appendChild(d);
+    });
+    row.appendChild(lbl); row.appendChild(bits); table.appendChild(row);
+  };
+  const maskBits = Array(32).fill(0).map((_, i) => i < n ? 1 : 0);
+  const ipBits   = [1,1,0,0,0,0,0,0, 1,0,1,0,1,0,0,0, 0,0,0,0,0,0,0,1, 0,0,0,0,1,0,1,0];
+  makeRow('IP:', ipBits, () => 'net');
+  makeRow('Máscara:', maskBits, (i) => i < n ? 'net' : 'host');
+  const hb = 32 - n;
+  const hosts = Math.pow(2, hb) - 2;
+  document.getElementById('mask-info').innerHTML =
+    `Prefijo <strong>/${n}</strong>: <span style="color:var(--blue)">■ ${n} bits de RED</span> + <span style="color:var(--green)">■ ${hb} bits de HOST</span><br>` +
+    `Hosts útiles: 2<sup>${hb}</sup> − 2 = <strong>${hosts > 0 ? hosts.toLocaleString('es-CO') : '—'}</strong>`;
+  ['tr25','tr26','tr27'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.toggle('hl', (id==='tr25'&&n===25)||(id==='tr26'&&n===26)||(id==='tr27'&&n===27)); });
+}
+setTimeout(() => showMask(8, document.querySelector('.prefix-btn.active')), 10);
+
+// ── SLIDE 5: VLSM ──
+const vlsmData = [
+  { vlan: 'VLAN 40 — Visitantes', pref: '/25', mask: '255.255.255.128', net: '192.168.1.0', gw: '192.168.1.1', bc: '192.168.1.127', hosts: '126', why: 'Necesita 100 hosts. Formula: 2⁷ = 128, menos 2 = 126 ✓ — Va primero porque es la más grande.' },
+  { vlan: 'VLAN 20 — Financiera', pref: '/26', mask: '255.255.255.192', net: '192.168.1.128', gw: '192.168.1.129', bc: '192.168.1.191', hosts: '62', why: 'Necesita 50 hosts. Fórmula: 2⁶ = 64, menos 2 = 62 ✓ — Empieza justo donde terminó VLAN 40 (.128).' },
+  { vlan: 'VLAN 10 — Administrativa', pref: '/27', mask: '255.255.255.224', net: '192.168.1.192', gw: '192.168.1.193', bc: '192.168.1.223', hosts: '30', why: 'Necesita 20 hosts. Fórmula: 2⁵ = 32, menos 2 = 30 ✓ — Empieza donde terminó VLAN 20 (.192).' },
+  { vlan: 'VLAN 30 — Técnicos', pref: '/27', mask: '255.255.255.224', net: '192.168.1.224', gw: '192.168.1.225', bc: '192.168.1.255', hosts: '30', why: 'Necesita 20 hosts. Mismo prefijo que Admin. Empieza donde terminó VLAN 10 (.224). Llega hasta .255, cerrando el /24.' }
+];
+function showVlsm(i, el) {
+  document.querySelectorAll('.vlsm-seg').forEach(s => s.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const d = vlsmData[i];
+  document.getElementById('vlsm-info').innerHTML =
+    `<strong>${d.vlan}</strong> · Prefijo: <code>${d.pref}</code> · Máscara: <code>${d.mask}</code><br>` +
+    `Red: <strong>${d.net}</strong> &nbsp;·&nbsp; Gateway: <strong>${d.gw}</strong> &nbsp;·&nbsp; Broadcast: <strong>${d.bc}</strong><br>` +
+    `Hosts útiles: <strong>${d.hosts}</strong><br><br><em style="color:var(--text3)">${d.why}</em>`;
+}
+const stepData = [
+  { t: '1. Ordenar de mayor a menor', c: 'Siempre empieza por la VLAN que tiene más hosts:<br><strong>Visitantes (100) → Financiera (50) → Administrativa (20) → Técnicos (20)</strong><br><br>Si empiezas por las más pequeñas, no tendrás espacio continuo para las grandes.' },
+  { t: '2. Calcular el prefijo necesario', c: 'Para cada VLAN encuentra el menor <em>n</em> tal que <code>2ⁿ ≥ hosts + 2</code><br><br>Visitantes: 2ⁿ ≥ 102 → <code>2⁷ = 128 ✓</code> → <strong>/25</strong><br>Financiera: 2ⁿ ≥ 52 → <code>2⁶ = 64 ✓</code> → <strong>/26</strong><br>Adm/Técn: 2ⁿ ≥ 22 → <code>2⁵ = 32 ✓</code> → <strong>/27</strong>' },
+  { t: '3. Asignar la dirección de red', c: 'La primera subred empieza en la dirección base. Cada siguiente subred empieza <strong>justo después del broadcast de la anterior</strong>:<br><br>VLAN 40: <code>192.168.1.<strong>0</strong>/25</code><br>VLAN 20: <code>192.168.1.<strong>128</strong>/26</code><br>VLAN 10: <code>192.168.1.<strong>192</strong>/27</code><br>VLAN 30: <code>192.168.1.<strong>224</strong>/27</code>' },
+  { t: '4. Identificar el gateway', c: 'El gateway es la <strong>primera IP útil</strong> = dirección de red + 1. Este IP se configura en la subinterfaz del router:<br><br>VLAN 40: <code>192.168.1.<strong>1</strong></code> &nbsp; VLAN 20: <code>192.168.1.<strong>129</strong></code><br>VLAN 10: <code>192.168.1.<strong>193</strong></code> &nbsp; VLAN 30: <code>192.168.1.<strong>225</strong></code><br><br>Configura el gateway en R1: <code>ip address 192.168.1.1 255.255.255.128</code>' },
+  { t: '5. Identificar el broadcast', c: 'El broadcast es la <strong>última IP del rango</strong>. No se asigna a ningún dispositivo:<br><br>VLAN 40: <code>192.168.1.<strong>127</strong></code> &nbsp; VLAN 20: <code>192.168.1.<strong>191</strong></code><br>VLAN 10: <code>192.168.1.<strong>223</strong></code> &nbsp; VLAN 30: <code>192.168.1.<strong>255</strong></code><br><br>Tip: broadcast = siguiente red − 1. Ej: VLAN 40 termina en .127 porque VLAN 20 empieza en .128.' }
+];
+function showStep(i, el) {
+  document.querySelectorAll('.step-pill').forEach(p => p.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('step-content').innerHTML = stepData[i].c;
+}
+setTimeout(() => showStep(0, document.querySelector('.step-pill')), 10);
+
+// ── SLIDE 6: VLANs ──
+const vlanInfo = {
+  10: '<strong style="color:#4d8ef0">VLAN 10 — Administrativa · 20 hosts</strong><br>IP de red: <code>192.168.1.192/27</code> · Máscara: <code>255.255.255.224</code><br>Gateway: <code>192.168.1.193</code> · Broadcast: <code>192.168.1.223</code><br>IPs de dispositivos: 192.168.1.194 – 192.168.1.222<br><br>Solo personal administrativo y gerencial. Aislada de visitantes y otras áreas.',
+  20: '<strong style="color:#a78bfa">VLAN 20 — Financiera · 50 hosts</strong><br>IP de red: <code>192.168.1.128/26</code> · Máscara: <code>255.255.255.192</code><br>Gateway: <code>192.168.1.129</code> · Broadcast: <code>192.168.1.191</code><br>IPs de dispositivos: 192.168.1.130 – 192.168.1.190<br><br>Contabilidad, tesorería, presupuesto. Nadie externo puede interceptar sus transacciones.',
+  30: '<strong style="color:#3ecf8e">VLAN 30 — Técnicos · 20 hosts</strong><br>IP de red: <code>192.168.1.224/27</code> · Máscara: <code>255.255.255.224</code><br>Gateway: <code>192.168.1.225</code> · Broadcast: <code>192.168.1.255</code><br>IPs de dispositivos: 192.168.1.226 – 192.168.1.254<br><br>Equipo de TI, acceso a servidores y equipos de red. Aislados por seguridad.',
+  40: '<strong style="color:#fb923c">VLAN 40 — Visitantes · 100 hosts</strong><br>IP de red: <code>192.168.1.0/25</code> · Máscara: <code>255.255.255.128</code><br>Gateway: <code>192.168.1.1</code> · Broadcast: <code>192.168.1.127</code><br>IPs de dispositivos: 192.168.1.2 – 192.168.1.126<br><br>Solo acceso a Internet. NUNCA pueden ver recursos internos de la empresa.'
+};
+function showVlan(n, el) {
+  document.querySelectorAll('.vlan-floor').forEach(f => f.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('vlan-info').innerHTML = vlanInfo[n];
+}
+
+// ── SLIDE 7: IPv6 ──
+const ipv6Data = [
+  '<strong style="color:var(--blue)">Prefijo global — parte 1 (grupo 1/3)</strong><br>El grupo <code>2001</code> indica que esta dirección pertenece al espacio de Internet global. Es como el "código de país" en una dirección postal.',
+  '<strong style="color:var(--blue)">Prefijo global — parte 2 (grupo 2/3)</strong><br>El grupo <code>0DB8</code> (abreviado: <code>DB8</code>) es el prefijo de documentación y práctica (RFC 3849). En una red real, aquí iría el bloque asignado por el proveedor.',
+  '<strong style="color:var(--blue)">Prefijo global — parte 3 (grupo 3/3)</strong><br>El grupo <code>ACAD</code> completa el prefijo /48 de la empresa. Juntos los 3 grupos forman: <code>2001:DB8:ACAD</code> — el bloque completo de Enter Ltda.',
+  '<strong style="color:var(--green)">ID de subred / VLAN (grupo 4)</strong><br>Este grupo de 16 bits identifica la VLAN o subred. Usamos el número de VLAN:<br>VLAN 10 → <code>0010</code> · VLAN 20 → <code>0020</code> · VLAN 30 → <code>0030</code> · VLAN 40 → <code>0040</code><br>Con 16 bits podemos tener hasta 65.536 subredes.',
+  '<strong style="color:var(--purple)">ID de interfaz — inicio (grupo 5/8)</strong><br>Los últimos 4 grupos (64 bits) identifican el dispositivo. Para el gateway usamos <code>::1</code> (el resto son ceros). Un PC puede generar su propio ID automáticamente con SLAAC.',
+  '<strong style="color:var(--purple)">ID de interfaz (grupo 6/8)</strong><br>Continúa el identificador del dispositivo. Cuando hay grupos consecutivos de solo ceros, se comprimen con <code>::</code> en la notación corta. Por eso el gateway se escribe <code>2001:DB8:ACAD:10::1</code>.',
+  '<strong style="color:var(--purple)">ID de interfaz (grupo 7/8)</strong><br>Sigue el ID. Los cuatro grupos de ceros (grupos 5-8, excepto el último) se comprimen. La dirección completa <code>2001:0DB8:ACAD:0010:0000:0000:0000:0001</code> se abrevia a <code>2001:DB8:ACAD:10::1</code>.',
+  '<strong style="color:var(--purple)">ID de interfaz — final (grupo 8/8)</strong><br>El grupo <code>0001</code> indica que es el <strong>gateway</strong> de esa VLAN (primera dirección útil). La dirección completa y abreviada del gateway de VLAN 10: <code>2001:DB8:ACAD:10::1/64</code>'
+];
+function showIPv6(i) {
+  document.getElementById('ipv6-info').innerHTML = ipv6Data[i];
+}
+</script>
+</body>
+</html>
