@@ -4,23 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Redes desde Cero — Empresa Enter Ltda.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
   :root {
-    --bg: #0d0f14;
-    --bg2: #13161d;
-    --bg3: #1a1e28;
+    --bg: #0a0e14;
+    --bg2: #101820;
+    --bg3: #1a2430;
     --border: rgba(255,255,255,0.08);
     --border2: rgba(255,255,255,0.14);
-    --text: #e8eaf0;
-    --text2: #8b90a0;
+    --text: #e8ecf4;
+    --text2: #8b95a8;
     --text3: #555a6a;
-    --blue: #4d8ef0;
-    --blue-dim: rgba(77,142,240,0.15);
-    --blue-glow: rgba(77,142,240,0.3);
-    --green: #3ecf8e;
-    --green-dim: rgba(62,207,142,0.12);
+    --blue: #22d3ee;
+    --blue-dim: rgba(34,211,238,0.15);
+    --blue-glow: rgba(34,211,238,0.32);
+    --green: #34d399;
+    --green-dim: rgba(52,211,153,0.12);
     --purple: #a78bfa;
     --purple-dim: rgba(167,139,250,0.12);
     --orange: #fb923c;
@@ -29,8 +30,8 @@
     --teal-dim: rgba(45,212,191,0.12);
     --red: #f87171;
     --red-dim: rgba(248,113,113,0.12);
-    --font: 'Space Grotesk', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
+    --font: 'Outfit', system-ui, sans-serif;
+    --mono: 'DM Mono', ui-monospace, monospace;
     --r: 10px;
     --r2: 16px;
   }
@@ -60,7 +61,7 @@
   }
   .logo { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
   .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 8px var(--blue-glow); }
-  .header-badge { font-size: 11px; background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(77,142,240,0.3); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .header-badge { font-size: 11px; background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(34,211,238,0.28); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
 
   /* ── PROGRESS ── */
   .progress-bar { position: fixed; top: 56px; left: 0; width: 0%; height: 3px; background: var(--blue); z-index: 99; transition: width .4s ease; box-shadow: 0 0 10px var(--blue-glow); }
@@ -96,10 +97,10 @@
     font-family: var(--mono);
   }
   .step-pip:hover { border-color: var(--blue); color: var(--blue); }
-  .step-pip.done { background: rgba(77,142,240,0.2); border-color: var(--blue); color: var(--blue); }
+  .step-pip.done { background: rgba(34,211,238,0.2); border-color: var(--blue); color: var(--blue); }
   .step-pip.active { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 0 12px var(--blue-glow); }
   .pip-line { flex: 1; height: 1px; background: var(--border); min-width: 12px; flex-shrink: 0; }
-  .pip-line.done { background: rgba(77,142,240,0.4); }
+  .pip-line.done { background: rgba(34,211,238,0.4); }
 
   /* ── SLIDES ── */
   .slide { display: none; }
@@ -120,7 +121,7 @@
     text-transform: uppercase;
     color: var(--blue);
     background: var(--blue-dim);
-    border: 1px solid rgba(77,142,240,0.25);
+    border: 1px solid rgba(34,211,238,0.25);
     padding: 4px 12px;
     border-radius: 20px;
     margin-bottom: 14px;
@@ -189,7 +190,7 @@
     font-weight: 500;
     color: var(--blue);
     background: var(--blue-dim);
-    border: 1px solid rgba(77,142,240,0.3);
+    border: 1px solid rgba(34,211,238,0.3);
     border-radius: var(--r);
     padding: 10px 16px;
     cursor: pointer;
@@ -255,8 +256,8 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--mono); font-size: 11px; font-weight: 600;
   }
-  .mbit.net  { background: rgba(77,142,240,0.25); color: var(--blue); }
-  .mbit.host { background: rgba(62,207,142,0.2); color: var(--green); }
+  .mbit.net  { background: rgba(34,211,238,0.25); color: var(--blue); }
+  .mbit.host { background: rgba(52,211,153,0.2); color: var(--green); }
   .mask-oct-gap { width: 8px; }
 
   /* ── PREFIJO BUTTONS ── */
@@ -302,10 +303,10 @@
     cursor: pointer; transition: all .15s;
   }
   .step-pill:hover { color: var(--text2); border-color: var(--border2); }
-  .step-pill.active { background: var(--blue-dim); color: var(--blue); border-color: rgba(77,142,240,0.4); }
+  .step-pill.active { background: var(--blue-dim); color: var(--blue); border-color: rgba(34,211,238,0.4); }
   .step-content { background: var(--bg2); border-radius: var(--r); border: 1px solid var(--border); padding: 14px 16px; font-size: 13px; color: var(--text2); line-height: 1.8; min-height: 100px; }
   .step-content strong { color: var(--text); }
-  .step-content code { font-family: var(--mono); font-size: 12px; color: var(--green); background: rgba(62,207,142,0.1); padding: 1px 6px; border-radius: 4px; }
+  .step-content code { font-family: var(--mono); font-size: 12px; color: var(--green); background: rgba(52,211,153,0.1); padding: 1px 6px; border-radius: 4px; }
 
   /* ── VLAN BUILDING ── */
   .vlan-building { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
@@ -329,8 +330,8 @@
     transition: all .15s; text-transform: uppercase;
   }
   .ipv6-g:hover { transform: scale(1.05); filter: brightness(1.2); }
-  .ipv6-g.pref  { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(77,142,240,.3); }
-  .ipv6-g.sub   { background: var(--green-dim); color: var(--green); border: 1px solid rgba(62,207,142,.3); }
+  .ipv6-g.pref  { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(34,211,238,.3); }
+  .ipv6-g.sub   { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,.3); }
   .ipv6-g.iface { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,.3); }
   .ipv6-sep { font-size: 20px; color: var(--text3); }
 
@@ -364,7 +365,7 @@
 
   /* ── CODE BLOCK ── */
   pre.code-block {
-    background: #0a0c11;
+    background: #0a0e14;
     border: 1px solid var(--border);
     border-radius: var(--r);
     padding: 14px 16px;
@@ -390,11 +391,11 @@
     font-size: 13px; color: var(--text2); line-height: 1.7; min-height: 60px;
   }
   .info-box strong { color: var(--text); }
-  .info-box code { font-family: var(--mono); font-size: 12px; color: var(--green); background: rgba(62,207,142,0.1); padding: 1px 6px; border-radius: 4px; }
+  .info-box code { font-family: var(--mono); font-size: 12px; color: var(--green); background: rgba(52,211,153,0.1); padding: 1px 6px; border-radius: 4px; }
 
   /* ── HIGHLIGHT CHIP ── */
-  .chip { display: inline-block; font-family: var(--mono); font-size: 12px; background: var(--green-dim); color: var(--green); border: 1px solid rgba(62,207,142,.25); padding: 2px 8px; border-radius: 6px; margin: 1px; }
-  .chip.blue { background: var(--blue-dim); color: var(--blue); border-color: rgba(77,142,240,.25); }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 12px; background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,.25); padding: 2px 8px; border-radius: 6px; margin: 1px; }
+  .chip.blue { background: var(--blue-dim); color: var(--blue); border-color: rgba(34,211,238,.25); }
   .chip.purple { background: var(--purple-dim); color: var(--purple); border-color: rgba(167,139,250,.25); }
   .chip.orange { background: var(--orange-dim); color: var(--orange); border-color: rgba(251,146,60,.25); }
 
@@ -683,7 +684,7 @@
       <div class="panel">
         <div class="panel-label">Edificio Enter Ltda. — Toca cada piso para ver los detalles de esa VLAN</div>
         <div class="vlan-building">
-          <div class="vlan-floor" style="background:rgba(24,95,165,0.3);border-color:rgba(77,142,240,0.4)" onclick="showVlan(10,this)">
+          <div class="vlan-floor" style="background:rgba(24,95,165,0.3);border-color:rgba(34,211,238,0.4)" onclick="showVlan(10,this)">
             <h4>🔵 VLAN 10 — Administrativa &nbsp;·&nbsp; 20 hosts</h4>
             <p>Piso Gerencial · Recursos Humanos · Gestión</p>
           </div>
@@ -691,7 +692,7 @@
             <h4>🟣 VLAN 20 — Financiera &nbsp;·&nbsp; 50 hosts</h4>
             <p>Contabilidad · Tesorería · Presupuesto</p>
           </div>
-          <div class="vlan-floor" style="background:rgba(15,110,86,0.3);border-color:rgba(62,207,142,0.4)" onclick="showVlan(30,this)">
+          <div class="vlan-floor" style="background:rgba(15,110,86,0.3);border-color:rgba(52,211,153,0.4)" onclick="showVlan(30,this)">
             <h4>🟢 VLAN 30 — Técnicos &nbsp;·&nbsp; 20 hosts</h4>
             <p>Soporte TI · Servidores · Infraestructura de red</p>
           </div>
@@ -799,11 +800,11 @@
       <div class="panel">
         <div class="panel-label">De la red base a las VLANs configuradas</div>
         <div style="text-align:center;padding:8px 0 12px">
-          <div style="display:inline-block;background:rgba(77,142,240,0.2);border:1px solid rgba(77,142,240,0.5);border-radius:var(--r2);padding:12px 24px;font-size:15px;font-weight:600;color:var(--blue)">Red principal: 192.168.1.0/24 · 256 IPs disponibles</div>
+          <div style="display:inline-block;background:rgba(34,211,238,0.2);border:1px solid rgba(34,211,238,0.5);border-radius:var(--r2);padding:12px 24px;font-size:15px;font-weight:600;color:var(--blue)">Red principal: 192.168.1.0/24 · 256 IPs disponibles</div>
           <div style="color:var(--text3);font-size:22px;margin:10px 0">↓ VLSM</div>
         </div>
         <div class="summary-grid">
-          <div class="summary-box" style="background:rgba(24,95,165,0.2);border:1px solid rgba(77,142,240,0.3)">
+          <div class="summary-box" style="background:rgba(24,95,165,0.2);border:1px solid rgba(34,211,238,0.3)">
             <strong style="color:var(--blue)">🔵 VLAN 40 — Visitantes /25</strong>
             Red: 192.168.1.0<br>GW: 192.168.1.1<br>Broadcast: 192.168.1.127<br>Hosts útiles: <strong>126</strong>
           </div>
@@ -811,12 +812,12 @@
             <strong style="color:var(--purple)">🟣 VLAN 20 — Financiera /26</strong>
             Red: 192.168.1.128<br>GW: 192.168.1.129<br>Broadcast: 192.168.1.191<br>Hosts útiles: <strong>62</strong>
           </div>
-          <div class="summary-box" style="background:rgba(15,110,86,0.2);border:1px solid rgba(62,207,142,0.3)">
+          <div class="summary-box" style="background:rgba(15,110,86,0.2);border:1px solid rgba(52,211,153,0.3)">
             <strong style="color:var(--green)">🟢 VLAN 10 — Administrativa /27</strong>
             Red: 192.168.1.192<br>GW: 192.168.1.193<br>Broadcast: 192.168.1.223<br>Hosts útiles: <strong>30</strong>
           </div>
-          <div class="summary-box" style="background:rgba(59,109,17,0.2);border:1px solid rgba(62,207,142,0.25)">
-            <strong style="color:#6fcf4a">🟩 VLAN 30 — Técnicos /27</strong>
+          <div class="summary-box" style="background:rgba(59,109,17,0.2);border:1px solid rgba(52,211,153,0.25)">
+            <strong style="color:#34d399">🟩 VLAN 30 — Técnicos /27</strong>
             Red: 192.168.1.224<br>GW: 192.168.1.225<br>Broadcast: 192.168.1.255<br>Hosts útiles: <strong>30</strong>
           </div>
         </div>
@@ -1033,9 +1034,9 @@ setTimeout(() => showStep(0, document.querySelector('.step-pill')), 10);
 
 // ── SLIDE 6: VLANs ──
 const vlanInfo = {
-  10: '<strong style="color:#4d8ef0">VLAN 10 — Administrativa · 20 hosts</strong><br>IP de red: <code>192.168.1.192/27</code> · Máscara: <code>255.255.255.224</code><br>Gateway: <code>192.168.1.193</code> · Broadcast: <code>192.168.1.223</code><br>IPs de dispositivos: 192.168.1.194 – 192.168.1.222<br><br>Solo personal administrativo y gerencial. Aislada de visitantes y otras áreas.',
+  10: '<strong style="color:#22d3ee">VLAN 10 — Administrativa · 20 hosts</strong><br>IP de red: <code>192.168.1.192/27</code> · Máscara: <code>255.255.255.224</code><br>Gateway: <code>192.168.1.193</code> · Broadcast: <code>192.168.1.223</code><br>IPs de dispositivos: 192.168.1.194 – 192.168.1.222<br><br>Solo personal administrativo y gerencial. Aislada de visitantes y otras áreas.',
   20: '<strong style="color:#a78bfa">VLAN 20 — Financiera · 50 hosts</strong><br>IP de red: <code>192.168.1.128/26</code> · Máscara: <code>255.255.255.192</code><br>Gateway: <code>192.168.1.129</code> · Broadcast: <code>192.168.1.191</code><br>IPs de dispositivos: 192.168.1.130 – 192.168.1.190<br><br>Contabilidad, tesorería, presupuesto. Nadie externo puede interceptar sus transacciones.',
-  30: '<strong style="color:#3ecf8e">VLAN 30 — Técnicos · 20 hosts</strong><br>IP de red: <code>192.168.1.224/27</code> · Máscara: <code>255.255.255.224</code><br>Gateway: <code>192.168.1.225</code> · Broadcast: <code>192.168.1.255</code><br>IPs de dispositivos: 192.168.1.226 – 192.168.1.254<br><br>Equipo de TI, acceso a servidores y equipos de red. Aislados por seguridad.',
+  30: '<strong style="color:#34d399">VLAN 30 — Técnicos · 20 hosts</strong><br>IP de red: <code>192.168.1.224/27</code> · Máscara: <code>255.255.255.224</code><br>Gateway: <code>192.168.1.225</code> · Broadcast: <code>192.168.1.255</code><br>IPs de dispositivos: 192.168.1.226 – 192.168.1.254<br><br>Equipo de TI, acceso a servidores y equipos de red. Aislados por seguridad.',
   40: '<strong style="color:#fb923c">VLAN 40 — Visitantes · 100 hosts</strong><br>IP de red: <code>192.168.1.0/25</code> · Máscara: <code>255.255.255.128</code><br>Gateway: <code>192.168.1.1</code> · Broadcast: <code>192.168.1.127</code><br>IPs de dispositivos: 192.168.1.2 – 192.168.1.126<br><br>Solo acceso a Internet. NUNCA pueden ver recursos internos de la empresa.'
 };
 function showVlan(n, el) {
