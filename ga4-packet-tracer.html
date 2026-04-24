@@ -3,143 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    (function () {
-      var t = null;
-      try { t = localStorage.getItem("sena-site-theme") || localStorage.getItem("sena-index-theme"); } catch (e) {}
-      var d = document.documentElement.getAttribute("data-default-theme");
-      if (d !== "light" && d !== "dark") d = "dark";
-      document.documentElement.setAttribute("data-theme", t === "light" || t === "dark" ? t : d);
-    })();
-  </script>
+  <script src="./js/theme-init.js"></script>
   <title>GA4-220501104-AA1-EV01 — Simulación en Packet Tracer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/lms-layout.css">
-  <link rel="stylesheet" href="css/site-theme-button.css">
-  <link rel="stylesheet" href="css/site-theme-ga4.css">
-  <style>
-    :root {
-      --ink: #0a0e14;
-      --text: #e8ecf4;
-      --muted: #8b95a8;
-      --edge: rgba(255, 255, 255, 0.08);
-      --accent: #a78bfa;
-      --accent2: #22d3ee;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Outfit", system-ui, sans-serif;
-      background: var(--ink);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-    .bg {
-      position: fixed; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse 100% 80% at 50% -15%, rgba(167, 139, 250, 0.14) 0%, transparent 50%), var(--ink);
-    }
-    .wrap {
-      position: relative; z-index: 1; width: 100%;
-      max-width: min(100%, 88rem);
-      margin: 0 auto;
-      padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 5vw, 3rem) 3rem;
-    }
-    .kicker {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2);
-      border: 1px solid var(--edge); background: rgba(34, 211, 238, 0.08);
-      padding: 0.35rem 0.75rem; border-radius: 100px; display: inline-block; margin-bottom: 1rem;
-    }
-    h1 {
-      font-size: clamp(1.35rem, 4vw, 1.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #22d3ee 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .code { font-family: "DM Mono", ui-monospace, monospace; font-size: 0.82rem; color: #94a3b8; margin-bottom: 0.5rem; }
-    .intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
-    .nav-inpage {
-      display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
-      padding: 0.85rem 0; margin-bottom: 2rem;
-      border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge);
-      font-size: 0.88rem;
-    }
-    .nav-inpage a { color: var(--accent2); text-decoration: none; }
-    .nav-inpage a:hover { text-decoration: underline; }
-    h2 {
-      font-size: 1.1rem; font-weight: 800; color: #fff; margin: 2.25rem 0 1rem; padding-bottom: 0.35rem;
-      border-bottom: 1px solid var(--edge);
-    }
-    h2:first-of-type { margin-top: 0; }
-    h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 1.5rem 0 0.65rem; }
-    p, li { font-size: 0.92rem; color: #cbd5e1; }
-    p { margin-bottom: 0.75rem; }
-    ul, ol { margin: 0.5rem 0 0.9rem 1.25rem; }
-    li { margin-bottom: 0.4rem; }
-    strong { color: var(--text); font-weight: 600; }
-    .prose a { color: var(--accent2); }
-    table {
-      width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 0.75rem 0 1.25rem;
-    }
-    th, td { border: 1px solid var(--edge); padding: 0.5rem 0.6rem; text-align: left; }
-    th { background: rgba(34, 211, 238, 0.08); color: #e2e8f0; font-weight: 700; }
-    td { color: #cbd5e1; }
-    .overflow { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    pre {
-      font-family: "DM Mono", ui-monospace, monospace; font-size: 0.72rem; line-height: 1.5;
-      background: #101820; border: 1px solid var(--edge); border-radius: 10px; padding: 1rem 1.1rem;
-      overflow-x: auto; margin: 0.65rem 0 1.1rem; color: #a5f3fc; white-space: pre-wrap; word-break: break-word;
-    }
-    .callout {
-      font-size: 0.86rem; padding: 0.85rem 1rem; border-radius: 10px; margin: 1rem 0; border: 1px solid var(--edge);
-    }
-    .callout--info { background: rgba(34, 211, 238, 0.06); border-color: rgba(34, 211, 238, 0.2); color: #cbd5e1; }
-    .callout--warn { background: rgba(251, 191, 36, 0.06); border-color: rgba(251, 191, 36, 0.2); color: #cbd5e1; }
-    .callout--ok { background: rgba(52, 211, 153, 0.06); border-color: rgba(52, 211, 153, 0.2); color: #cbd5e1; }
-    .callout b { color: #fff; }
-    h2#archivos { margin-top: 2.5rem; }
-    .file {
-      display: flex; align-items: flex-start; gap: 0.75rem;
-      padding: 0.9rem 1rem; margin-bottom: 0.5rem;
-      border: 1px solid var(--edge);
-      border-radius: 12px;
-      background: linear-gradient(145deg, rgba(20, 26, 36, 0.9) 0%, rgba(10, 14, 20, 0.85) 100%);
-    }
-    .file-ico { font-size: 1.35rem; line-height: 1; }
-    .file a { color: var(--accent2); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
-    .file a:hover { text-decoration: underline; }
-    .file p { color: var(--muted); font-size: 0.8rem; margin: 0.2rem 0 0; }
-    .note { font-size: 0.82rem; color: var(--muted); margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--edge); }
-  </style>
+  <link rel="stylesheet" href="./css/lms-layout.css">
+  <link rel="stylesheet" href="./css/site-theme-button.css">
+  <link rel="stylesheet" href="./css/site-theme-ga4.css">
+  <link rel="stylesheet" href="./css/ga4-packet-tracer.css">
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
   <div class="lms-app">
     <button type="button" class="lms-burger" aria-label="Menú de unidades" aria-controls="lms-sidebar" aria-expanded="false">☰</button>
     <div class="lms-scrim" aria-hidden="true"></div>
     <aside id="lms-sidebar" class="lms-sidebar" aria-label="Unidades del curso">
       <div class="lms-sidebar__head">
-        <a href="index.html" class="lms-sidebar__brand">Material de estudio</a>
+        <a href="./index.html" class="lms-sidebar__brand">Material de estudio</a>
         <span class="lms-sidebar__sub">Redes de datos · SENA</span>
       </div>
       <nav class="lms-sidebar__nav" aria-label="Módulos">
-        <a href="index.html" class="lms-sidebar__link">Inicio</a>
-        <a href="revision-direccionamiento-ip.html" class="lms-sidebar__link">Revisión: teoría básica IP</a>
-        <a href="ga4-packet-tracer.html" class="lms-sidebar__link lms-sidebar__link--active" aria-current="page">GA4 · Packet Tracer</a>
-        <a href="analizador-grd.html" class="lms-sidebar__link">Analizador GRD (ambos temas)</a>
+        <a href="./index.html" class="lms-sidebar__link">Inicio</a>
+        <a href="./revision-direccionamiento-ip.html" class="lms-sidebar__link">Revisión: teoría básica IP</a>
+        <a href="./ga4-packet-tracer.html" class="lms-sidebar__link lms-sidebar__link--active" aria-current="page">GA4 · Packet Tracer</a>
+        <a href="./analizador-grd.html" class="lms-sidebar__link">Analizador GRD (ambos temas)</a>
       </nav>
     </aside>
     <div class="lms-main">
   <button type="button" class="site-theme-btn" id="site-theme-btn" aria-pressed="false" aria-label="Alternar entre tema claro y oscuro" title="Tema claro u oscuro"></button>
+  <header class="site-header">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      GA4 · Simulación en Packet Tracer
+    </div>
+  </header>
   <div class="wrap prose">
-    <p class="kicker">Unidad temática · SENA</p>
-    <h1>Simulación en Cisco Packet Tracer</h1>
     <p class="code">GA4-220501104-AA1-EV01 · 220501104</p>
     <p class="intro">Implementación de un esquema de subredes y direccionamiento <strong>IPv4</strong> e <strong>IPv6</strong> con <strong>Packet Tracer 9.0</strong>. Caso <strong>Enter Ltda.</strong>, cuatro VLAN, router <em>on a stick</em> y cálculo <strong>VLSM</strong> a partir de <code class="code" style="font-size:0.85em">192.168.1.0/24</code> y prefijo IPv6 <code class="code" style="font-size:0.85em">2001:DB8:ACAD::/48</code>. A continuación encontrará el marco <strong>teórico</strong> y la guía <strong>práctica</strong>; al final, los archivos originales (Word, PowerPoint y Excel) de la carpeta.</p>
 
@@ -409,7 +307,7 @@ tracert 192.168.1.10</pre>
         <div class="file">
           <span class="file-ico" aria-hidden="true">📄</span>
           <div>
-            <a href="GA4-220501104-AA1-EV01_Tutorial_PacketTracer9_SENA.docx">Tutorial — Packet Tracer 9 (Word)</a>
+            <a href="./GA4-220501104-AA1-EV01_Tutorial_PacketTracer9_SENA.docx">Tutorial — Packet Tracer 9 (Word)</a>
             <p>Guía original con capturas, checklist de Zajuna y nombre sugerido de entregables.</p>
           </div>
         </div>
@@ -418,7 +316,7 @@ tracert 192.168.1.10</pre>
         <div class="file">
           <span class="file-ico" aria-hidden="true">📊</span>
           <div>
-            <a href="GA4-220501104-AA1-EV01_Tutorial_SENA_v2.pptx">Presentación — apoyo a la tutoría (PowerPoint)</a>
+            <a href="./GA4-220501104-AA1-EV01_Tutorial_SENA_v2.pptx">Presentación — apoyo a la tutoría (PowerPoint)</a>
             <p>Contenido en diapositivas para la explicación en aula o repaso.</p>
           </div>
         </div>
@@ -427,7 +325,7 @@ tracert 192.168.1.10</pre>
         <div class="file">
           <span class="file-ico" aria-hidden="true">📐</span>
           <div>
-            <a href="GA4-220501104-AA1-EV01_Calculos_SENA.xlsx">Cálculos (Excel)</a>
+            <a href="./GA4-220501104-AA1-EV01_Calculos_SENA.xlsx">Cálculos (Excel)</a>
             <p>Hoja de cálculo VLSM y tablas de direccionamiento asociadas a la evidencia.</p>
           </div>
         </div>
@@ -437,7 +335,7 @@ tracert 192.168.1.10</pre>
   </div>
   </div><!-- lms-main -->
   </div><!-- lms-app -->
-  <script src="js/lms.js" defer></script>
-  <script src="js/site-theme.js" defer></script>
+  <script src="./js/lms.js" defer></script>
+  <script src="./js/site-theme.js" defer></script>
 </body>
 </html>
